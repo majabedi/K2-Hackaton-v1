@@ -13,6 +13,9 @@ def get_openai_response(content: str) -> str:
     api_key = os.getenv("OPENAI_API_KEY")
     base_url = os.getenv("OPENAI_API_BASE")
     model = os.getenv("OPENAI_MODEL")
+    
+    with open("prompt.txt", "r") as f:
+        prompt = f.read()
 
     if not all([api_key, base_url, model]):
         raise ValueError("Missing one or more required environment variables: OPENAI_API_KEY, OPENAI_API_BASE, OPENAI_MODEL")
@@ -23,7 +26,7 @@ def get_openai_response(content: str) -> str:
         response = client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": prompt},
                 {"role": "user", "content": content},
             ],
         )
