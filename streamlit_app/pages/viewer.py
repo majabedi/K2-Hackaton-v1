@@ -9,8 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from openai_utils import get_openai_response
 
 # Load environment variables from .env file in the parent directory
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
-load_dotenv(dotenv_path=dotenv_path)
+load_dotenv()
 
 st.set_page_config(page_title="File Viewer", page_icon="📄")
 
