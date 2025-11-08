@@ -25,6 +25,7 @@ def get_openai_response(content: str) -> str:
     try:
         response = client.chat.completions.create(
             model=model,
+            temperature=0.0,
             messages=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": content},
