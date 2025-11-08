@@ -8,6 +8,8 @@ INSTRUCTIONS (keep it simple; internal reasoning allowed, but output is code onl
    * Route: pick IV bolus if present; otherwise oral first-order absorption.
 
    * Do not include any 2-compartment or infusion logic.
+   
+   * Find any toxic level of drug concentration and show it in the plot as red area
 
 2. Extract parameters as scalar floats (no dicts/lists):
 
@@ -70,6 +72,8 @@ INSTRUCTIONS (keep it simple; internal reasoning allowed, but output is code onl
    * Wrap unit conversions and float casting explicitly: e.g., CL_typ = float(CL_typ).
 
    * If a value is NaN or not finite, replace with default.
+   
+9. Show a warning if the concentration of drug in the plot goes higher than the toxic level and suggest to reduce the doses.
 
 OUTPUT
 Return only one Streamlit .py script (no markdown fences, no explanations). The script must run as-is:
