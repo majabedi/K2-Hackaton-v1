@@ -1,0 +1,2506 @@
+pharmaceutics
+Article
+Development and Quality Control of a Population
+Pharmacokinetic Model Library for Caspofungin
+NuoXu1,2,† ,YufeiShi1,2,† ,YixueWang3,WenyaoMak1 ,WenyuYang1 ,KarWengNg4 ,YueWu5,
+ZhijiaTang1 ,QingfengHe1,2 ,GangfengYan3,XiaoqiangXiang1,* andXiaoZhu1,2,*
+1 DepartmentofClinicalPharmacyandPharmacyAdministration,SchoolofPharmacy,FudanUniversity,
+Shanghai201203,China;22211030092@m.fudan.edu.cn(N.X.);yufei_shi@fudan.edu.cn(Y.S.);
+makwenyao@gmail.com(W.M.);21211030109@m.fudan.edu.cn(W.Y.);zjtang@fudan.edu.cn(Z.T.);
+qf_he@fudan.edu.cn(Q.H.)
+2 HunanKeyLaboratoryforBioanalysisofComplexMatrixSamples,Changsha410000,China
+3 DepartmentofCriticalCareMedicine,Children’sHospitalofFudanUniversity,NationalChildren’sMedical
+Center,Shanghai200000,China;yixuewang08@aliyun.com(Y.W.);gangfeng_yan@fudan.edu.cn(G.Y.)
+4 DepartmentofPharmacotherapyServices,HospitalKualaLumpur,MinistryofHealth,KualaLumpur50586,
+Malaysia;nkweng@moh.gov.my
+5 DepartmentofClinicalPharmacy,ShenzhenChildren’sHospital,MedicalCollege,ShantouUniversity,
+Shenzhen518000,China;wuyue161@163.com
+* Correspondence:xiangxq@fudan.edu.cn(X.X.);xiaozhu@fudan.edu.cn(X.Z.);Tel.:+86-21-51980024(X.X.);
++86-21-51980024(X.Z.)
+† Theseauthorscontributedequallytothiswork.
+Abstract:Background:Caspofunginisanechinocandinantifungalagentcommonlyusedasthefirst-
+linetherapyforinvasivecandidiasis,salvagetherapyforinvasiveaspergillosis,andempiricaltherapy
+forpresumedfungalinfections.Pharmacokinetic(PK)variabilitiesandsuboptimalexposurehave
+beenreportedforcaspofungin,increasingtheriskofinsufficientefficacy.Objective:Thisworkaimed
+todevelopacaspofunginpopulationpharmacokinetic(popPK)libraryanddemonstrateitsutility
+Citation:Xu,N.;Shi,Y.;Wang,Y.; byassessingtheprobabilityoftargetattainmentacrossdiversesettings.Methods:Weestablisheda
+Mak,W.;Yang,W.;Ng,K.W.;Wu,Y.; caspofunginpopPKmodellibraryfollowingarigorousliteraturereview,re-implementingselected
+Tang,Z.;He,Q.;Yan,G.;etal. modelsinRwithrxode2.Qualitycontrolproceduresincludedacomparisonofdifferentstudiesand
+DevelopmentandQualityControlof assessingcovariateimpacts.ModellibrarieswereprimarilyusedtoperformMonteCarlosimulations
+aPopulationPharmacokineticModel toestimatetargetattainmentandguidepersonalizeddosinginCandidainfections.Results:Atotal
+LibraryforCaspofungin.
+of13models,one-ortwo-compartmentmodels,wereincluded.Themostsignificantcovariateswere
+Pharmaceutics2024,16,819.
+bodysize(weightandbodysurfacearea),liverfunction,andalbuminlevel.Theresultsshowthat
+https://doi.org/10.3390/
+childrenandadultsshowedconsiderabledifferencesinpharmacokinetics. ForC.albicansandC.
+pharmaceutics16060819
+parapsilosis,noneofthepopulationsachievedaPTAof≥90%attheirrespectivesusceptibleMIC
+AcademicEditors:AntonelloDi values.Incontrast,forC.glabrata,70%oftheadultstudiesreachedaPTAof≥90%,whileallpediatric
+Paolo,KatarinaVucˇic´evic´and studies achieved the same PTA level. Conclusion: At the recommended dosage, adult patients
+BranislavaMiljkovic´
+showednotablylowerexposuretocaspofungincomparedtopediatricpatients.Consideringbody
+Received:6May2024 size,liverfunction,andserumalbuminiscrucialwhendeterminingcaspofungindosageregimens.
+Revised:30May2024 Furthermore,furtherresearchisrequiredtocomprehensivelyunderstandthepharmacokineticsof
+Accepted:5June2024 caspofungininpediatricpatients.
+Published:17June2024
+Keywords:caspofungin;individualizeddosing;populationpharmacokinetics;modellibrary
+Copyright: © 2024 by the authors.
+Licensee MDPI, Basel, Switzerland.
+1. Introduction
+Thisarticleisanopenaccessarticle
+Echinocandins,includingcaspofungin,micafungin,andanidulafungin,representa
+distributed under the terms and
+breakthroughinantifungaltreatment. Caspofunginblocksthesynthesisofanessential
+conditionsoftheCreativeCommons
+Attribution(CCBY)license(https://
+fungalcellwallcomponent,β-(1,3)-D-glucan,leadingtotheosmoticinstabilityandlysis
+creativecommons.org/licenses/by/ ofthefungalcell. Duetoitsselectiveactiononfungalcells,caspofunginisusuallywell
+4.0/). tolerated without common significant side effects. Caspofungin exerts potent activity
+Pharmaceutics2024,16,819.https://doi.org/10.3390/pharmaceutics16060819 https://www.mdpi.com/journal/pharmaceutics
+Pharmaceutics2024,16,819 2of23
+againstCandidaandAspergillusspp.,servingasthefirst-linetherapyforinvasivefungal
+infections(IFIs), salvagetherapyforinvasiveaspergillosis, andempiricaltreatmentfor
+presumedfungalinfectionsinchildrenoverthreemonthsandinadults[1,2].
+With poor oral bioavailability (<0.2%), caspofungin can only be administered by
+slow intravenous infusion over approximately one hour. About 97% of caspofungin
+bindstoplasmaproteinsafterenteringthebloodstream. Followinginfusion,theplasma
+concentrationofcaspofungindeclinesinapolyphasicmanner. Themetabolismprocessis
+slowandoccursmainlyviahydrolysisandN-acetylation[3].
+Caspofungin’sfavorablesafetyprofileandrelativelylowpotentialfordrug–druginter-
+actionsledtoitswidespreaduseintheprophylaxisandtreatmentofIFIs.However,reported
+pharmacokinetic(PK)variabilitiesandsuboptimalexposurewithstandarddosing,espe-
+ciallyincriticallyillpatients,increasetheriskofinsufficientefficacy[4,5]. Hence,person-
+alizeddosagerecommendationsandtailoredadjustments,usuallyinformedbymeasured
+observationsandmodel-predictedexposure,arecrucialtooptimizetreatmentoutcomes.
+Caspofungindemonstratesaconcentration-dependentinhibitionoffungalgrowth[6].
+The clinical efficacy of caspofungin in treating invasive aspergillosis relies on defined
+pharmacokinetic/pharmacodynamic(PK/PD)indices,likepeakconcentration/minimum
+effectiveconcentration(C /MEC),theareaunderconcentration–timecurve/minimum
+max
+inhibitoryconcentration(AUC/MIC),andAUC/MEC[7,8]. Commontargetsincludethe
+ratioofthe24htotaldrugAUCtoMIC(AUC /MIC)andtheratioofthe24hfree
+0–24h
+drugAUCtoMIC(fAUC /MIC)[9,10]. AUC /MIC,themostinfluentialPK/PD
+0–24h 0–24h
+index for caspofungin, exhibits substantial variability among intensive care unit (ICU)
+patients[11,12]. Despitepreclinicalsupport,thesetargetshaveyettobeconfirmedand
+validatedinclinicalstudies,posingchallengesintheirapplicationtoclinicalpractice.
+Populationpharmacokinetic(popPK)modelsdescribethePKprofilesofthestudied
+populationandcanevaluatetheeffectofvariouscovariatesonPKvariabilities. Wheninte-
+gratedwithBayesianforecasting,whichcombinespriorknowledgewithnewobservational
+data,thisapproachhasbecomeincreasinglyutilizedfordesigningandadjustingdosing
+regimensinclinicalpractice[13]. TheBayesianmethodrequiresawell-definedstructural
+modelthatincludesparametersinformedbypriordistributionsandiscontinuallyupdated
+withnewclinicalobservations,ensuringthatdosingregimensaretailoredtothespecific
+needsandresponsesofpatients. DespitenumerousPK/PDstudiesoncaspofungin,ex-
+istingmodelinformationhasnotbeenquantitativelyintegratedtoguidefurtherresearch.
+Therefore,amodellibrarywouldbeinvaluableforfacilitatingmodel-informedprecision
+dosing(MIPD)strategiesbycompilingrelevantdata.
+This study aimed to develop a caspofungin population pharmacokinetic (popPK)
+libraryanddemonstrateitsutilitybyassessingtheprobabilityoftargetattainmentacross
+diversesettings. Thisconsistedofthreespecificobjectives: (1)toidentifyandre-implement
+existingpopPKmodelsusinganopen-sourceRpackage;(2)toperformaqualitycontrol
+of the developed model library by comparing PK metrics and evaluating the impact
+of covariates; and (3) to demonstrate the utility of the model library by assessing the
+probabilityoftargetattainment(PTA)acrossdiversestudysettings.
+2. MaterialsandMethods
+2.1. DevelopmentofModelLibrary
+2.1.1. SearchStrategy
+Fourdatabases,includingPubMed,Embase,WebofScience,andScopus,weresearched
+forpopPKmodelstudiesofcaspofunginpublishedbefore25November2022,following
+thePreferredReportingItemsforSystematicReviewsandMeta-Analyses(PRISMA)guide-
+lines[14]. Thesearchstrategyencompassedkeywordspertinenttothefocalmedication
+(‘Caspofungin’or‘Cancidas’or‘MK0991’or‘L743,872’),alongwithtermsspecificallydenot-
+ingpopPKmodelingapproaches,suchaspopulationpharmacokinetic,NONMEM,MONO-
+LIX,ornlmixr. Additionally,allreferencelistsfromselectedarticlesweresearchedtoensure
+thecomprehensivenessofourstudy. Twoindependentauthorsconductedtheliterature
+Pharmaceutics2024,16,819 3of23
+research,andanothertwoseniorinvestigatorsperformedthedatavalidation[14]. Thecom-
+prehensivesearchstrategiesemployedforeachdatabase,aswellasthedetailedinclusion
+andexclusioncriteriautilizedinthestudy,canbefoundintheSupplementaryMaterials.
+Allstudiesidentifiedfromthedatabasesandothersourceswerescreenedtoevaluate
+theireligibilitybasedonthefollowingconsolidatedcriteria: (1)thesubjectofthestudies
+was human, including healthy volunteers and patients; (2) caspofungin was the study
+drug; (3)popPKorPK/PDanalysiswasconductedinthestudy; and(4)thestudywas
+publishedinEnglish. Apublicationwasexcludedif(1)itwasnotanarticleoronlyfocused
+onthemethodology, algorithms, orsoftwarecomparisonsor(2)criticalPKparameters
+wereinsufficient.
+2.1.2. LiteratureEvaluation
+Literatureevaluationswereimplementedtodiligentlyidentifyandresolveanyanoma-
+liesorinconsistenciespertinenttotheconstructionofthemodellibrary[15]. Thequality
+ofthepopPKstudywasevaluatedbasedonachecklistwith33itemsadaptedfromthe
+guidelines(seeSupplementaryMaterials)[16,17]. Theliteratureevaluationwasdivided
+intofiveparts: titleandabstract,introduction,methods,results,anddiscussionandcon-
+clusion. A risk of bias assessment was conducted. Each item received one point if the
+study information met the criteria; otherwise, zero points were assigned. Compliance,
+reflectingpopPKstudyquality,wascalculatedascompliance%=(itemsreported/total
+items)×100%. Theriskofbiasplotwasconductedusingthe“ggplot2”package(version
+3.3.5;https://ggplot2.tidyverse.org,accessedon5November2022)inRsoftware(version
+4.1.1;http://www.r-project.org,accessedon5November2022).
+2.1.3. DataExtraction
+Astandardizeddataextractionmethodwassystematicallyemployedtofacilitatedata
+collectionfromalleligiblestudies. Thisprocessencompassedthefollowingkeyaspects:
+(1)demographiccharacteristics(e.g.,race,age,sex,andweightrange);(2)thestudydesign
+(e.g.,typeofstudy,numberofsubjectsandobservations,dosageregimens,administration,
+samplingschedule,anddetectionmethod)[16];(3)popPKmodelingcharacteristics(e.g.,
+software/algorithm,finalPKparameters,modelvalidation);(4)investigatedandidenti-
+fiedcovariatesinformationin popPKmodels; (5)PK/PDtargetsusedforsimulationif
+applicable;and(6)modelapplicationandrecommendeddosageregimens.
+2.1.4. ModelRe-Implementation
+Afterextractingallrelevantinformationfromthemodels,were-implementedthem
+usingtheopen-sourceRpackage“rxode2”package(version2.0.12;https://nlmixr2.github.
+io/rxode2/index.html,accessedon8December2022),withallparameterssettothefinal
+parameterestimatesreportedintheliterature. Allofthemodelcodesareprovidedinthe
+SupplementaryMaterials.
+2.2. QualityControlofModelLibrary
+2.2.1. ComparisonofStudies
+Qualitycontrol(QC)measureswereimplementedtoscreenandresolveanydiscrep-
+anciesorissuesarisingduringtheestablishmentofthemodellibrary,ensuringrigorous
+standards were maintained. We constructed three age-stratified virtual patient cohorts
+(comprisinginfants,children,andadults),thoughtfullydesignedtoaccuratelymirrorthe
+specifictargetpopulationoftheircorrespondingmodels.
+Virtualpopulationswerecreatedanddividedintothreeagegroups: infants(10kg,
+75cm,1yearold),children(20kg,100cm,6yearsold),andadults(70kg,40yearsold).
+Infants and children adopted the standard dosage regimen, 70 mg/m2 on the first day,
+followedby50mg/m2 oncedaily,whereasadultsfollowedadifferentdosageregimen:
+70 mg on the first day, followed by 50 mg once daily. Caspofungin was administered
+intravenouslyoveronehourtoallgroupsoncedaily. TheMostellerformula[18]wasused
+Pharmaceutics2024,16,819 4of23
+to calculate body surface area (BSA) values for infants and children, which were set at
+0.441m2 and 0.79 m2, respectively. All patients reached a steady state with the labeled
+dosingregimen. Concentration–timeprofilesweresimulatedwiththe“rxode2”package
+(version2.0.12;https://nlmixr2.github.io/rxode2/index.html)inR.
+Weconductedasimilaritycomparisonassessmenttoensuretheaccuracyofconstruct-
+ingthedevelopedmodellibrary. Theideabehindthisassessmentisstraightforward. Ifthe
+modelshavebeenaccuratelyimplemented,theconcentration–timecurvesforthemodels
+withsimilartargetpopulationsshouldbecomparableastheydescribethePKbehaviorof
+thesamedruginthesamepopulation. Themodelperformanceisconsideredcomparableif
+itstypicalmaximumconcentration(C )fallswithintherangeof50–200%ofthemedian
+max
+C acrossallstudies(seeSupplementaryMaterials).
+max
+2.2.2. AssessmentofCovariatesImpact
+Clearance(CL)isacrucialparameterforAUC,whiletheapparentvolumeofdistribu-
+tion(V )isanimportantPKparameterforC . AUCandC playcentralrolesinthe
+d max max
+individualizeddosingofcaspofungin. Thus,comparingtheeffectsofdifferentcovariates
+on CL and V was necessary. The effect of covariates was presented through a forest
+d
+plotusingthe“ggplot2”package(version2.0.0;Tidyversepackages)inR.Forcontinuous
+covariates,themaximumandminimumvaluesfromtheincludedstudieswereextracted
+andusedforcalculatingtherangeoftheeffectofdifferentcovariatesonCLorV . For
+d
+covariatesincludedinmultiplestudies,auniformrangewassetupforthecomparison
+basedonthedemographicinformationintheincludedstudies. Forbinarycovariates,such
+asdiseasesituation. Theuncommoncondition(criticallyilldisease)wastreatedasthe
+reference(COV =0),whiletheuncommoncondition(notcriticallyilldisease)wastreated
+i
+asthetest(COV =1). CL =CL +CL ×COV. TherangeofCL was[CL ,
+i i common diff i i common
+CL +CL ](ifCL >0)or[CL +CL ,CL ](ifCL <0). Then,the
+common diff diff common diff common diff
+valuesofCLandVdwerefurthernormalizedbythereferencetothemediancovariate
+value(equation). Weregardedcovariateeffectsbeyondthe80–125%rangeasclinically
+significant,inaccordancewiththestandardemployedinbioequivalencestudies[19].
+Upperorlowerlimit
+Theeffectvalueof covariates = ∗100%
+Referencevalue
+2.3. ApplicationofPopPKModelLibrary
+Louieetal. reportedcomparableCandidaalbicansreductionsinkidneytissueand
+proposed AUC /MIC as the optimal PK/PD index for caspofungin [20]. Based on
+0–24h
+the invivo PK/PD studies, the PK/PD targets for C. albicans, C. glabrata, and C. parap-
+silosis were 865, 450, and 1185, respectively [10,21]. According to the clinical and labo-
+ratorystandardsinstitute(CLSI)MICbreakpointfortheinvitrobrothdilutionsuscepti-
+bility testing of Candida spp., MICs for each Candida species were selected (C. albicans,
+susceptible≤0.25mg/L;C.glabrata,susceptible≤0.12mg/L;C.parapsilosis,susceptible
+≤2mg/L)[22]. AfterthepopPKmodellibraryofcaspofunginwasestablished,aMonto
+Carlo simulation was conducted to predict the probability of caspofungin reaching the
+PK/PDtargetunderlabeleddosingregimensandspecificMIC.Thestepswereasfollows:
+(1)simulatePKprofilesofcaspofungin;(2)calculatethesteady-stateAUC usingthe
+0–24h
+trapezoidalmethod;and(3)calculatethePTAunderspecificMICsettings.
+3. Results
+3.1. OverviewofIncludedPopPKStudiesforCaspofungin
+3.1.1. IdentificationofIncludedStudies
+Figure1presentsthePRISMAflowchartforstudyidentification. FromPubMed,Sco-
+pus,WebofScience,andEmbase,26,150,185,and61studieswereretrieved,respectively,
+withnoadditionalrecordsfromothersources. Atotalof13studieswereincludedinour
+modellibraryforsubsequentanalysis.
+Pharmaceutics2024,16,819 5of23
+Figure1.PRISMAflowdiagramfortheidentificationofcaspofunginpopulationpharmacokinetics
+(PPK)studies.
+3.1.2. EvaluationofLiterature
+TheriskmapconcerningthebiasoftheliteratureissummarizedinFigure2. Two
+studies lacked a description of PK data in their background sections, and two did not
+includethesamplingschedule. Onestudydidnotmentionthedrugformulation,bioana-
+lyticalmethods,andthedistributionofindividualmodelparameters. Noneoftheincluded
+studies detailed the methods of handling missing data, and fewer than 20% of studies
+reportedaspecificwayofhandlingthedatabelowthequantificationlimit. Nevertheless,
+allstudiesachievedacompliancerateof85%,indicatingthatallstudiesareofgoodquality.
+3.1.3. StudyandPopPKModelCharacteristics
+ThecharacteristicsofeachstudyaresummarizedinTable1. Allincludedstudieswere
+publishedfrom2011to2022,withnine[23–31]beingclinicaltrialsandfour[11,12,32,33]
+beingobservationalstudies. Thetotalnumberofparticipantsrangedfrom12to299(IQR
+(19,48)). Wangetal.[30]andWuetal.[29]enrolledbothpatientsandhealthysubjects,
+while the others only enrolled invasive candidiasis patients. Three studies enrolled a
+pediatricpopulationbetweenthreemonthsand18years,whiletherestincludedadults
+only. Fivestudiesfocusedontransplantpatients,includingallogeneichematopoieticstem
+celltransplant[25,32],hearttransplant[29],lungtransplant[30],andlivertransplant[26].
+While most studies collected only plasma concentrations, Pressiat et al. [26] collected
+plasma and peritoneal fluid samples. Sparse sampling strategies were adopted in all
+three pediatric and two adult studies [23,34], with various bioassay methods used to
+determinecaspofunginconcentrations. Despitemethodologicaldifferences,steady-state
+plasmaconcentrationsunderstandarddosingregimensremainedabovethelowestlimits
+ofquantitation(LLOQ,range[0.084–0.6mg/L]),suggestingtheirminimalinfluenceon
+theresults.
+Pharmaceutics2024,16,819 6of23
+Figure2.Evaluationoftheincludedpopulationpharmacokineticsstudies(theriskbiasplot).
+The modeling strategies and final PK parameters of the included studies are sum-
+marized in Table 2. Ten studies [11,12,23,27–30,32–34] used NONMEM software, with
+first-order conditional estimation with interaction (FOCE-i) being the most used algo-
+rithm[11,12,23,27,28,32–34]. Moststudiesemployedatwo-compartmentmodeltodescribe
+caspofungin PKs, although two studies [25,34] utilized a one-compartment model due
+to sparse sampling schedules that may not accurately represent the characteristics of a
+two-compartmentPKmodel.
+Allstudiesincorporatedbetween-subjectvariability(BSV),withamedianof27.5%
+(range: 11.8–42.3%) in CL across the 13 studies. Residual unexplained variability was
+describedbyproportional[11,23,25–28,31–34],additive[12,30],orcombinedmodels[29].
+Proportional errors with coefficients of variation ranged from 12.2% to 36% in eleven
+studies,whilethreestudies[12,29,30]includedaddictiveerrorsrangingfrom0.0941to0.73
+mg/L.Anintegrationofinter-occasionvariabilityonCLwasestimatedtobe17.2%and
+ff
+16.0%instudiesbyGastineetal.[33]andWürthweinetal.[28],respectively.
+AllincludedpopPKmodelsconductedinternalvalidation, includinggoodness-of-
+fit tests, a visual predictive check, a predicted–corrected visual predictive check, and
+normalized prediction distribution error plots. Additionally, ten [11,12,25,27–30,32–34]
+outofthirteenstudiespresentedresultsofbootstrapanalyses. Würthweinetal.[28]used
+externalvalidationtofurtherverifytheirmodel.
+Tenstudies[11,12,23,25–27,29,31,33,34]performedMonteCarlosimulationstoevaluate
+existing dosing regimens or optimize caspofungin therapy, comparing different dosage
+regimensorevaluatingcaspofunginPKsanddruginteractioninspecificpatientpopulations.
+Innine[11,12,23,25,26,29,31,33,34]ofthesestudies,thesimulationtargetedAUC /MIC
+0–24h
+asthePK/PD.Pressiatetal.[26]concludedthatthestandardcaspofungindosewassuffi-
+cient,whilefivestudies[11,12,23,29,34]explicitlyadvocatedforadjustingdosingregimens
+basedoncovariates,suggestinghigherdoses(70–150mg)consideringfactorslikedisease
+condition,albumin(ALB)levels[29],fungalcolonytype,andliverfunction.
+Pharmaceutics2024,16,819 7of23
+Table1.Characteristicsofincludedpopulationpharmacokineticsstudies.
+Age(Years) Weight(kg) DailyDose
+Study Country Numberof
+BasicEntry Numberof Mean±SD Mean±SD Mean±SD Bioassay
+(Publication (Typeof Subjects SamplingSchedule
+Standard Observations Median Median Median [LOQ]
+Year) Study) (Male/Female)
+[Range] [Range] [Range]
+Day1andDay4:
+immediatelybefore
+administration;
+70mgQDon
+Adultsallo-HSCT 0.5to1.5h,1.5to3h,3to5h,
+Würthwein day1,followed
+Germany 19 recipients, 5to11h, 43.4 71.2 HPLC
+etal. 239 by50mgQD,
+(clinicaltrial) (11/8) immunocom- and22to23hafter [20.1–57.6] [56–99.2] [0.15mg/L]
+(2011)[32] IVinfusion
+promized administration;
+over60min
+Thereafter:randomtime
+pointstwiceweeklyuntilthe
+endoftreatment
+day1(immediatelypriorto
+70mg,QD;
+Adultswith dosingand2h[peaklevel],
+100mg,QD;
+Würthwein invasive 3h,5to7h,and24h[trough LC-MS/MS
+Germany 46 61 76 150mg,QD;
+etal. Aspergillosis, 468 level] [0.084
+(clinicaltrial) (21/25) [18–74] [43–104] 200mg,QD,
+(2013)[28] immunocompro- afterthestartofinfusion); mg/L]
+IVinfusion
+mized peakandtroughtimepoints
+over120min
+ondays4,7,14,28h
+Pérez-Pitarch Day3andlater:predose,0.5,
+Spain 12 Criticallyilladults 73 75 HPLC
+etal. 105 1,1.5,2,2.5,3,5,7,9,24h NR
+(clinicaltrial) (6/6) onCVVHD [56–78] [60–88] [NR]
+(2018)[12] afterthestartofinfusion
+70mg/m2
+6.07±2.74 22.78±8.71
+Yangetal. France 48 (loadingdose HPLC/MS
+ChildreninICU 159 NR 5.09 21
+(2019)[27] (clinicaltrial) (28/20) onday1), [0.25mg/L]
+[2.05–11.77] [11.8–47.5]
+50mg/m2QD.
+ECMOgroup AdultsonECMO 65 64
+12(9/3) afterLT [60–67] [59–69.3] UPLC-
+Wangetal. China predose,0.5,1,2,4,8,12,24h
+Adultpatients 271 50mgQD MS/MS
+(2020)[30] (clinicaltrial) Controlgroup afterthestartoftheinfusion 59 65
+neveronECMO [0.39mg/L]
+7(5/2) [56–62] [53–65]
+afterLT
+Pharmaceutics2024,16,819 8of23
+Table1.Cont.
+Age(Years) Weight(kg) DailyDose
+Study Country Numberof
+BasicEntry Numberof Mean±SD Mean±SD Mean±SD Bioassay
+(Publication (Typeof Subjects SamplingSchedule
+Standard Observations Median Median Median [LOQ]
+Year) Study) (Male/Female)
+[Range] [Range] [Range]
+AdultPatientsin 50mgQDwith
+France ICUwithproven a140mg
+Baillyetal. 13 53 76.5 LC-MS/MS
+(observational orsuspected NR 0,2,3,5,7,24hpostinfusion loadingdose,
+(2020)[31] (10/3) [34–55] [60–85] [0.5mg/L]
+study) invasive IVinfusion
+candidiasis over60min
+loadingdoseof
+Niuetal. China 48 Childrenwith anopportunisticsampling 6.58±3.7 21.7±10.3 70mg/m2 HPLC
+139
+(2020)[25] (clinicaltrial) (31/17) allo-HSCT strategy [0.61–14] [7.5–54] followedby [0.6mg/L]
+50mg/m2
+70mg
+intravenously
+Borsuk-De Poland
+30 53 74 onthefirstday HPLC
+Mooretal. (observational ICUpatients 180 0.5,2,4,8,12,24h
+(16/14) [28–76] [40–150] andat50mgi.v [0.18µg/mL]
+(2021)[11] study)
+onthe
+consecutivedays
+a70mg
+China loadingdose
+Lietal. 42 ICUpatientswith 56.82±16.39 59.18±11.40 LC-MS/MS
+(observational 140 1,3,6,24honDay4 anda50mg
+(2021)[23] (31/11) IFIs [20–88] [41–84.5] [0.2µg/mL]
+study) maintenance
+dose
+CASI:1mg/kg
+CASII:
+50mg/m2
+Gastineetal. Germany 48 Childrenaged 6 21.5
+NR Day1,Day4andDay9 CASIII: NR
+(2022)[33] (clinicaltrial) (26/22) 3–17 [0–16] [9.4–79.5]
+70mg/m2
+CASIV:
+50mg/m2
+Pharmaceutics2024,16,819 9of23
+Table1.Cont.
+Age(Years) Weight(kg) DailyDose
+Study Country Numberof
+BasicEntry Numberof Mean±SD Mean±SD Mean±SD Bioassay
+(Publication (Typeof Subjects SamplingSchedule
+Standard Observations Median Median Median [LOQ]
+Year) Study) (Male/Female)
+[Range] [Range] [Range]
+HTxgroup HTxgroup HTxgroup
+27 27HTx 50 59.5 1hIVinfusion
+(22/5) [20–73] [43.5–76] atadoseof
+Wuetal. China LC-MS/MS
+non-HTx 414 predose,1,2,6,10,16,24h 50mgQD
+(2022)[29] (clinicaltrial) Controlgroup Controlgroup [0.4mg/L]
+group afteraloading
+31non-HTx 58 62
+31 doseof70mg
+[22–78] [48–100]
+(21/10)
+Aloadingdose
+of70mgand
+then50mg
+AdultLT 395plasma perday
+Pressiatetal. France 20 recipients and predose,1,2,4,8,12,24h 45 72 (or70mgper HPLC
+(2022)[26] (clinicaltrial) (9/11) admittedtothe 50PF D1,D3,D8 [40.7–50] [62–81] dayifthe [0.5mg/L]
+liverICU samples recipient
+>80kg),
+IVinfusion
+over1h
+1.standard
+dosage
+regimenof
+C samplesatinterval 70/50mg;
+Patientswhohave min
+windowsof22–24h 2.Patientswith
+China beendiagnosed
+Yangetal. 299 921plasma post-dose, 44 62.3 hepatic LC-MS
+(observational withconfirmedor
+(2022)[34] (207/92) samples othersamplesatinterval [18–99] [30–100] insufficiency [NR]
+study) probable
+windowsof0–12h received
+candidiasis
+and12–24hpost-dose 70/35mg;
+3.patients
+>75kgreceived
+70/70mg
+allo-HSCT:allogeneichematopoieticstemcelltransplantation;ECMO:Extracorporealmembraneoxygenation;HTx:Hearttransplantation;IFIs:invasivefungalinfections;LT:Liver
+transplantation;PF:peritonealfluid;NR:notreported.
+Pharmaceutics2024,16,819 10of23
+Table2.Modelingstrategiesandfinalpharmacokineticsparametersofincludedstudies.
+Study Between-
+Software/ ResidualUnexplained Internal External Simulation Modeling
+(Publication FixedEffectParameters(RSE) Subject
+Algorithm Variability Validation Validation Target Application
+Year) Variability(%)
+CL(L/h) =0.462 25
+Würthwein NONMEM/ V 1(L) =8.33 29 VPC NR Evaluatecovariate
+etal. prop.err=21% GOF NR
+FOCE-I Q(L/h) =1.25 / effects
+(2011)[32] Bootstrap
+V (L) =3.59 /
+2
+=0.411×[1+0.0102×
+CL(L/h) 28.5
+(BW-76)]
+=5.85×[1+0.0102×
+V (L) 28.8
+1 (BW-76)] pcVPC
+Würthwein
+NONMEM/ VPC Evaluatecovariate
+etal. Q(L/h) =0.843 / prop.err=14.3% 36/456 NR
+FOCE-I GOF effects
+(2013)[28]
+V (L) =6.53 66.8 Bootstrap
+2
+IOV(CL) =0.16 /
+Cor-CL-V =0.802 /
+1
+Ke(h−1) =0.0899 11.8 AUC/MIC:
+C.albicans865;
+Pérez-Pitarch V (L) =6.46×(BW/75)× 21.4 GOF C.glabrata450; Evaluatethe
+etal.
+NONMEM/ 1 [1–0.233×(TP-5.6)]
+add.error=0.0941mg/L Bootstrap NR C.parapsilosis1185; efficacyof
+FOCE-I
+(2018)[12] K 12(h−1) =0.494 / VPC Cmax/MEC: differentdosages
+Aspergillusspp.
+K (h−1) =0.392 /
+21 10–20
+CL(L/h) =0.165×(BSA/0.79)1.3 24.2
+Evaluatethe
+GOF
+Yang NONMEM/ V 1(L) =1.730×(BSA/0.79)1.5 / VPC efficacyofthe
+etal. FOCE-I Q(L/h) =0.351 161.6 prop.err=19.6% NPDEs NR C min dosingregimen;
+(2019)[27] describePKina
+Bootstrap
+V (L) =0.943 76.6 specificpopulation
+2
+Pharmaceutics2024,16,819 11of23
+Table2.Cont.
+Study Between-
+Software/ ResidualUnexplained Internal External Simulation Modeling
+(Publication FixedEffectParameters(RSE) Subject
+Algorithm Variability Validation Validation Target Application
+Year) Variability(%)
+CL(L/h) =0.21×(OPT/5)1.3 20
+Evaluatecovariate
+Wang V (L)
+=(2.21+SEX×0.62)×
+10 GOF effects;
+etal.
+NONMEM/ 1 (OPT/5)0.93
+Add.error=0.73mg/L VPC NR NR describePKina
+NR
+(2020)[30] V (L) =2.87 48.0 Bootstrap specific
+2
+population
+Q(L/h) =0.84×(SOFA/7)1.98 /
+CL(L/h) =0.98 42.3
+AUC/MIC:
+Bailly V (L) =9.01 42.6
+Monolix/ 1 GOF 50,450,865; Evaluatedifferent
+etal. prop.err=12.2% NR
+(2020)[31]
+SEAM Q(L/h) =5.12 79.9 VPC Cmax/MIC dosages
+5,10,15,20
+V (L) =11.9 77.2
+2
+=0.1×(BSA/0.79)0.89× GOF Dosing
+eN ti au
+l.
+P Nh Lo Ie Mni Ex CL(L/h) (lnAST/3.38)−0.23 33.3
+prop.err=26.6%
+NV PP DC
+Es NR AUC 24/MIC
+ago ap inti sm ti Cz aa nti do in
+da
+(2020)[25] V 1(L) =1.36×(BSA/0.79) 32.9 Bootstrap spp.
+CL
+=0.563×(BW/70)0.75 24.7
+(L/h)D1
+CL
+=0.737*(BW/70)0.75 24.7
+(L/h)D2
+AUC /MIC Evaluatecovariate
+Borsuk-De CL 24
+=1.01×(BW/70)0.75 24.7 pcVPC C.albicans865; effects;
+Moor NONMEM/ (L/h)D3
+prop.err=19.9% GOF NR C.glabrata450; describePKina
+etal. FOCE-I
+(2021) [11]
+V 1(L)D1 =6.04×(BW/70) 28.6 Bootstrap C.parapsilosis specific
+V (L)D2 =7.32×(BW/70) 28.6 1185 population
+1
+V (L)D3 =7.70×(BW/70) 28.6
+1
+Q(L/h) =1.31 /
+V (L) =5.13 49.4
+2
+Cor-CL-V1 =0.868 /
+Pharmaceutics2024,16,819 12of23
+Table2.Cont.
+Study Between-
+Software/ ResidualUnexplained Internal External Simulation Modeling
+(Publication FixedEffectParameters(RSE) Subject
+Algorithm Variability Validation Validation Target Application
+Year) Variability(%)
+=0.323×0.89×
+(35/ALB)1.27
+(TBIL≤22µmol/L)
+CL(L/h) 22.4
+=0.323×(35/ALB)1.27 AUC 24/MIC
+Lietal. NONMEM/
+×(TBIL/22)0.265 pcVPC C.albicans865;
+Evaluatecovariate
+(2021)[23] FOCE-I
+(TBIL>22µmol/L) prop.err=24% GOF NR C.glabrata450;
+effects
+NPDEs C.parapsilosis
+V 1(L) =6.77×(WT/70)1.08 /
+1185
+Q(L/h) =0.923 /
+V (L) =4.58 /
+2
+CL
+(L/h/70 =0.790 27.5
+kg) AUC /MIC:
+24
+C.albicans865;
+Gastine
+V 1(L/70
+=7.75 31.5 GOF C.glabrata450;
+Assessextended
+NONMEM/ kg) twice-weekly
+etal. prop.err=19.4% VPC NR C.parapsilosis
+FOCE-I dosageusing
+(2022)[33] Q(L/h/70 Bootstrap 1185;
+=1.20 / caspofungin
+kg) fAUC /MIC:
+24
+(10–20)
+V (L/70
+2 =5.29 15.1
+kg)
+IOV(CL) =17.2% /
+=0.385×
+CL(L/h) (ALB/37.42)−1.01 33.5
+GOF
+AUC 24/MIC:
+Wu C.albicans865;
+NONMEM/ V (L) =4.27 67.5 prop.err=13.4% Bootstrap Evaluatecovariate
+etal. 1 NR C.glabrata450;
+NR add.error=0.213mg/L VPC effects
+(2022)[29] Q(L/h) =2.85 0.0 C.parapsilosis
+NPDE
+1185
+V (L) =6.01 47.7
+2
+Pharmaceutics2024,16,819 13of23
+Table2.Cont.
+Study Between-
+Software/ ResidualUnexplained Internal External Simulation Modeling
+(Publication FixedEffectParameters(RSE) Subject
+Algorithm Variability Validation Validation Target Application
+Year) Variability(%)
+CL(L/h) =0.38 33.0
+V (L) =6.24 59.0
+1 fAUC /MIC: Analyzethe
+24
+Pressiat Q(L/h) =2.58 / C.albicans25.9; PK/PDof
+Monolix/ GOF
+etal. prop.err=36% NR C.glabrata13.5; caspofungin
+(2022)[26]
+FOCE-I V 2(L) =6.44 107.0 pcVPC
+C.parapsilosis inaspecific
+K eff,13 =0.08 54 35.5 population
+K =0.26 /
+eff,31
+=0.32×(1+0.46×
+ALB*)×(1+0.98×
+WT*)
+(ALB*=1,ALB<35
+CL(L/h) g/L; 29.2
+ALB*=0,ALB≥35
+g/L;
+Evaluatecovariate
+Yang
+WT*=1,WT≥70kg,
+Bootstrap
+fAUC 24/MIC
+effects;describe
+NONMEM/ WT*=0,WT<70kg) C.albicans20;
+etal. prop.err=19.3% GOF NR PK
+(2022)[34] FOCE-I =13.31×(1+0.49× pcVPC C.glabrata7; inaspecific
+C.parapsilosis7
+ALB*)×(1+0.24× population
+WT*)
+(ALB*=1,ALB<35
+V (L) g/L; 59.2
+1
+ALB*=0,ALB≥35
+g/L;
+WT*=1,WT≥70kg,
+WT*=0,WT<70kg)
+CL:clearance;Q:intercompartmentalclearance;V1:centralvolumeofdistribution;V2:peripheralvolumeofdistribution.
+Pharmaceutics2024,16,819 14of23
+Niu et al. [25] concluded that the current recommended dose of caspofungin was
+sufficientforpediatricpatientsanddidnotrequirehigherdoses.Gastineetal.[33]reported
+thatatwice-weeklyextendeddosingregimenof200mg/m2,withamaximaltotaldoseof
+200mg,shouldyieldcomparableaverageweeklyexposurestotheapproveddaily-dosing
+regimen. Additionally,Yangetal.[27]includedBSAasasignificantcovariateonbothCL
+andV ,supportingtheadoptionofaBSA-baseddosingregimen.
+d
+3.2. OverviewofPopPKModelLibrary
+3.2.1. ComparisonofCaspofunginPKProfiles
+Simulated caspofungin concentration–time profiles are displayed in Figure S1. A
+comprehensivecomparisonofallsimulatedPKparametersforcaspofunginisshownin
+Figure3. ThemedianC valuesofchildren(23.56mg/L)andinfants(25.65mg/L)were
+max
+higherthanthatofadults(8.75mg/L),likelyduetothelowerV inchildrenandinfants
+d
+(adultsvs. pediatricpopulation: [2.21–9.01L]vs. [1.36–2.21L]).Moreover,thepediatric
+populationdemonstratedahigherCLperkilogramthanadults,withweight-normalized
+medianCLvaluesof0.0083L/h/kg(range:0.005–0.011L/h/kg)and0.0086L/h/kg(range:
+0.006–0.011L/h/kg)forchildrenandinfants,respectively,comparedto0.0061L/h/kg
+(range: 0.003–0.014L/h/kg)inadults.
+Figure3.Caspofunginmainpharmacokineticparameter(AUC)atsteadystateof(a)infants,(b)chil-
+dren,and(c)adults.Virtuallyallpatientswereassumedtobemaleandreceivedcaspofunginata
+doseof70mgonthefirstday,followedby50mgonceadayasaninfusionfor1hforadultsand
+70mg/m2onthefirstday,followedby50mg/m2onceadayasaninfusionfor1hforinfantsand
+children[11,12,25–34].
+Inthepediatricpopulation,threestudies[25,27,33]displayedsimilarPKcharacteristics
+inbothinfantsandchildren. Amoffngadultpatients,Wangetal.[30]reportedhigherAUC
+and C than other studies under the same dosage regimen, while Bailly et al. [31]
+max
+showedmuchlowerexposure. However,theremainingeightstudiesshowedsimilarPK
+profilesdespitevariationsinpatients’diseaseconditions(FigureS1). ThesubjectsinWang
+etal.’sstudy[30]werelungtransplantationrecipientsreceivingICUfollow-uptreatment,
+exhibitinglowerCLandV .
+d
+3.2.2. CovariateScreeningandInfluenceAnalysis
+AlltestedcovariatesthataffectedCL,V ,intercompartmentclearance(Q),andthe
+d
+distributionvolumeoftheperipheralcompartment(V )aresummarizedinTable3. The
+p
+stepwise covariate screening included forward inclusion and backward elimination. A
+comparisonofidentifiedandinvestigatedcovariatesispresentedinFigure4.
+Pharmaceutics2024,16,819 15of23
+Table3.Investigatedandidentifiedcovariatesinpopulationpharmacokineticmodelsofincludedstudies.
+TestedCovariates CovariateSelectionCriteria SignificantCovariates
+Study
+Co- Forward Backward
+(PublicationYear) Demographic LaboratoryTests CL V1 Q V2
+Administration Inclusion Elimination
+Würthweinetal. Liposomal
+Sex,Age,Weight,BSA TBIL,CLCR p<0.001 p<0.001 NR NR NR NR
+(2011)[32] amphotericinB
+Würthweinetal.
+Dose,Sex,Age,Weight TBIL,CLCR NR p<0.05 p<0.01 Weight Weight NR NR
+(2013)[28]
+Pérez-Pitarchetal.
+Age,Sex,Weight TP,SCR,TBIL,CLCR NR p<0.05 p<0.01 NR Weight,TP NR NR
+(2018)[12]
+Yangetal.
+Age,Weight,BSA SCR,ALB NR NR p<0.05 BSA BSA NR NR
+(2019)[27]
+Wangetal. Age,Sex,Weight,BMI,ECMO, SOFA,ALT,AST,ALB,TBIL,
+NR p<0.05 p<0.01 OPT Sex SOFA NR
+(2020)[30] OPT,24hfluidbalance CLCR,PCT
+Baillyetal. ALB,PAL,TBIL,AST,ALT,
+Age,Weight,ECMO NR NR NR NR NR NR NR
+(2020)[31] SCR,SOFA
+Niuetal. CR,eGFR,ALB,TBIL,DBIL,
+BSA,Weight, NR p<0.05 p<0.01 BSA,AST BSA NR NR
+(2020)[25] ALT,AST,γ-GT
+Borsuk-DeMooretal. Age,Weight,Height,Sex, SOFA,PCT,UF,ELWI,Cardiac
+NR NR p<0.01 NR NR NR NR
+(2021)[11] ECMO,CRRT,Survival,dose Output,ALB,TP,LiverFailure
+Lietal.
+Sex,Age,Weight ALT,AST,TBIL,ALB,CLCR NR p<0.05 p<0.01 ALB,TBIL Weight NR NR
+(2021)[23]
+Acyclovir,
+Gastineetal.
+Weight,Age,BSA,Sex,Race ALB,CLCR Vancomycin, p<0.05 p<0.01 Weight Weight Weight Weight
+(2022)[33]
+Dexamethasone
+Wu.etal. Age,Sex,Weight,Height,BMI, ALB,CLCR,AST,ALT,DBIL,
+NR p<0.05 p<0.001 ALB NR NR NR
+(2022)[29] ECMO,CRRT TBIL,PCT,PLT,SCR,TP
+Pressiatetal. ALB,TP,TBIL,SCR,CLCR,
+Age,Sex,Weight,BMI NR p<0.05 NR NR NR NR NR
+(2022)[26] SOFA,WBC,CRP,MELD,PT
+Yangetal. Weight, Weight,
+Weight,CMT,SOP,SOT,ICU ALB,MM,CYC,MET NR p<0.05 p<0.001 NR NR
+(2022)[34] ALB ALB
+BMI:bodymassindex;BSA:bodysurfacearea(calculatedaccordingtotheformulaofMosteller);ALB:albumin;eGFR:theestimatedglomerularfiltrationrate;CLCR:creatinine
+clearance(determinedaccordingtotheformulaofCockcroftandGault);SCR:serumcreatinine;PCT:procalcitonin;TP:totalprotein;TBIL:totalbilirubin;DBIL:directbilirubin;Hb:
+hemoglobin;AST:aspartateaminotransferase;ALT:alanineaminotransferase;PAL:phenylalanineammonia-lyase;ECMO:extracorporealmembraneoxygenation;CRRT:continuous
+renalreplacementtherapy;SOFA:sequentialorganfailureassessment;OPT:operativetime;ELWI,extravascularlungwaterindex;UF:ultrafiltrationrate;PLT:platelet;WBC:leukocyte
+count;CRP:C-reactiveprotein;MELD:modelforend-stageliverdisease;PT:prothrombintime;HT:hearttransplantation;NR:notreported.
+ff
+Pharmaceutics2024,16,819 16of23
+Figure4.Ahistogramoftheamountofinvestigatedandidentifiedcovariatesinincludedstudies.
+Fourstudies[11,26,31,32]didnotincludeanycovariates,likelycontributingtothe
+highconsistencyoftheincludedpatients. Themostinfluentialcovariatewasbodysize,
+suchasbodyweightandBSA.Three[15,19,34]studies(23.1%)foundbodyweightclosely
+relatedtoCL,andfivestudies[12,23,28,33,34](38.5%)indicateditsimpactonV . Yang
+d
+et al. [27] and Niu et al. [25] identified BSA as a crucial covariate that affects both CL
+andV . Moreover,threestudies[23,29,34]confirmedALBlevelasasignificantcovariate
+d
+affectingCL.Intheirfinalmodel,Niuetal.[26]andLietal.[24]includedtheliverfunction
+biomarkerasacovariate. Interestingly,amongthestudiesincludingpediatricpopulations,
+two [25,27] identified BSA as a significant covariate on CL and V , supporting dosing
+d
+basedonBSA.Würthweinetal.[28]foundthatthePKofcaspofunginwasnotalteredby
+thecoadministrationofliposomalamphotericinB.Threestudies[11,29,30]investigating
+thedifferenceinPKcharacteristicsinpatientgroupswhohadreceivedcontinuousrenal
+replacementtherapy(CRRT)orextracorporealmembraneoxygenation(ECMO)concluded
+thatthesefactorshadnosignificanteffect.
+IdentifiedcovariatesonCLandV werevisualizedusingtheforestmapinFigure5.
+d
+Figure5AhighlightsBSAasapivotaldeterminantofCLinchildren,withweightsignifi-
+cantlyinfluencingCLinadultandpediatricpopulations. Theimpactofbodysizemeasures
+exceeds the conventional range (80–125%), suggesting considerable CL variability. De-
+spite variations in covariates across studies due to different populations, the profound
+influenceofbodysizeoncaspofunginCLremainsconsistent. Comparedtothereference
+value, six[12,23,25,27,29,33]outofthesevenstudiesdemonstratedasignificantimpact
+ofbodysizeonV withchangesgreaterthan20%underthenormalrangeofbodysize.
+d
+Additionally, two studies [12,27] showed the influence of ALB to exceed a 20% change
+inV withinthenormalrange. Wangetal. foundthatmalegenderwasassociatedwith
+d
+increasedcaspofunginV (Figure5B).Lietal.[23]andNiuetal.[25]showedliverfunction
+d
+tohavechangesover20%underawiderangeofliverfunctions. Threestudies[23,29,34]
+includedALBasasignificantcovariateaffectingCL,withchangesexceeding20%within
+thenormalrangeoftheALBlevel.
+ff
+ff
+Pharmaceutics2024,16,819 17of23
+Figure5.(A)TheeffectofcovariatesonCL(L/h)ofcaspofungininincludedstudies.(B)Theeffectof
+ff ff
+covariatesonV (L)ofcaspofungininincludedstudies.Thehorizontalbarsrepresentthecovariate
+d
+effectonclearanceineachstudy.Thetypicalvalueofclearanceineachstudywasconsideredtobe1.
+ff
+Theeffectofeachcovariateforclearanceisdisplayedbytheratioofclearanceintherangeofeach
+ff
+covariatetothetypicalclearancevalue.Theshadedarearangesfrom0.8to1.25[23,25–30,33,34].
+3.3. ModelLibraryApplications
+Inourmodellibrary, 77%ofstudiesincorporatedAUC/MICasthePK/PDtarget
+forsimulation. ThesimulatedPTAforeachpublishedpopPKmodelwasassessedwith
+three Candida strains, the results of which are presented in Figure 6. For C. albicans
+(MIC=0.25mg/L)andC.parapsilosis(MIC=2mg/L),noneofthepopulationsachieved
+aPTAof≥90%. However,forC.glabrata(MIC=0.12mg/L),70%ofstudiesfocusedon
+adultsreachedaPTAof≥90%,whileallpediatricpatientsachievedaPTAof≥90%. The
+PTAresultssuggestedthatcaspofunginmaybeunderexposedinadultpatients,indicating
+≥
+thenecessityofbasingdrugdosageontheCandidastrains’resultsandthecorresponding
+MICvalue.
+≥ ≥
+Pharmaceutics2024,16,819 18of23
+Figure6.Theprobabilitytargetachievementofcaspofungininincludedstudies.Thereddashedline
+representsa90%targetattainmttentrate,whilethethreeverticallyorienteddashedlinesofdifferent
+colorscorrespondtotherespectiveclinicalbreakpointsforMICsofeachfungus[11,12,25–34].
+4. Discussion
+Numerous PK studies on caspofungin have been conducted recently, with several
+popPKstudiesaimingtoexplainPKvariability. Toourknowledge,thisstudywasthefirst
+tobuildandshareaparametricpopPKmodellibraryofcaspofungin. Thelibraryischar-
+acterizedbysimulationsofconcentration–timeprofilesandcovariateeffectassessments,
+wherewedemonstratedthepotentialoftheconstituentmodelsinestimffatingtheAUC,
+C ,andPTAofcaspofungin. Thisworkprovidesevidenceforadvocatingindividualized
+max
+dosing not only based on body size but also potential covariates such as liver function
+andhypoalbuminemia.
+4.1. PediatricPatients
+The PKs of caspofungin vary substantially among pediatric patients. All three pe-
+diatricstudieswithinthemodellibraryconsistentlyappliedallometricscaling,aligning
+withthestandardpediatricdosingapproachthatutilizesbodysurfaceareaasthebasis
+for medication administration. Children showed higher CL (L/h/kg) than adults per
+kilogram,possiblyduetodifferencesindistributionratesintohepatictissue. Invitrodata
+suggestedtheinvolvementofuptaketransporters,suchasOATP1B1,incaspofungintissue
+ff
+distribution,particularlyinhepaticuptake[35]. Studies[24,36,37]suggestedthatfactors
+likeacceleratedliveruptake,largerliver-to-bodyratios,andincreasedhepaticbloodflow
+contributetoheightenedcaspofunginCLininfantsandtoddlers. However,conflicting
+findingsexistregardingage-dependentdifferencesinhepaticOATP1B1expressionandits
+impactoncaspofunginuptake. Thomsonetal. reportednoage-dependentdifferencesin
+ff
+hepaticOATP1B1expressionacrosspediatricgroups. Sáez-Llorensetal.[38]suggested
+ff
+that caspofungin CL increases from infancy to childhood and then decreases through
+adolescenceintoadulthood. PediatricpatientsgenerallyexhibithigherCL(L/h)andV
+d
+(L) compared to adults under standard dosing regimens, attributed to factors such as
+reducedbloodflow,higherbodyfat-to-leanmassratios,anddecreasedtotalbodywater.
+Thesephysiologicalandpathologicaldistinctions,particularlypronouncedininfants,can
+significantlyinfluencecaspofungin’sabsorption,distribution,metabolism,andexcretion.
+Pharmaceutics2024,16,819 19of23
+Findingsfromincludedstudiesindicatedthatadjustingthecaspofungindailydose
+basedonBSA,ratherthanweight,mightbemorereasonableinpediatricpatients. Three
+studies[25,27,33]focusedonchildrenwithamedianageofaroundsixyearsusedbodysize
+forallometricscaling;oneincludedweight,andtwostudiesincludedBSA.Gastineetal.
+(48subjects)estimatedweight-normalizedCLandV ,implicitlyassumingthepowerof1
+d
+fortheimpactofweightonCLandV . Niuetal. (48subjects,139observations)showed
+d
+that the power of BSA on CL was estimated to be 0.89 (RSE 11.36%), and the power of
+BSAonV wasfixedto1,respectively. InYangetal. (48subjects,159observations),the
+d
+power of BSA on CL and V was estimated to be 1.3 (RSE 13.8%) and 1.5 (RSE 13.5%).
+d
+Overall, the body size metrics have positive correlations with CL and V . Due to the
+d
+under-power design of the study [39], the slight deviations in the estimated exponents
+fromthetheoreticalallometricrelationshipshouldbeinterpretedwithcaution.
+Sáez-Llorensetal.[38]foundthataBSA-baseddosageof25mg/m2QDinneonates
+underthreemonthsachievedplasmaconcentrationprofilessimilartoadultsreceivinga
+standard50mgdailydose[38]. However,PKvariabilitywashigherinpediatricpatients
+withalowerbodyweight,necessitatingindividualizeddoseadjustments. BeyondBSA-
+based dosing, considering blood biochemical parameters and physiological conditions,
+suchasserumALBlevel,hepaticfunction,andbloodflow,iscrucial. Caspofunginisocca-
+sionallyusedinverylow-birth-weightinfants,butPKdataforthisgrouparescarce[40].
+Thisscarcityemphasizesthenecessityforlarge-scale,prospectivetrialstoestablishcaspo-
+fungin’sefficacy,safety,optimaldosage,androleinneonatalcandidiasis,particularlyin
+infantsunderthreemonthswithaverylowbirthweight.
+4.2. AdultPatients
+Insufficientdrugexposureiscommonwiththelabeleddosingregimeninadultpa-
+tients. Inthismodellibrary,fiveofthetenadultstudiesproposedincreasingthedosage
+ofcaspofungintoachievetargetexposurelevels. Caspofungindosingdifferencesexistbe-
+tweenadultsandchildren. Loweradultdosagescorrespondtolowerdrugconcentrations
+overtimecomparedtochildren(FigureS1),indicatinganeedfordosingstrategyimprove-
+ment. Inpatientswithnormalliverandkidneyfunction,hypoalbuminemiacanresultin
+elevated levels of unbound drugs, potentially leading to an increased CL, especially in
+highlyprotein-boundantibioticslikecaspofungin. Additionally, asahydrophilicdrug,
+caspofungin’sV mayincreaseduetofluidshiftsandextensivefluidresuscitation[41,42].
+d
+Criticallyillpatientsoftenpresentwithconcomitantconditionssuchasobesity,hepatic
+impairment, and specific infusion regimens, contributing to the high BSV of caspofun-
+gin PKs [43]. Treatment modalities like ECMO and CRRT are frequently employed in
+ICUsettings. StudieshaveyieldedconflictingresultsregardingtheimpactofECMOon
+caspofunginCL,withonestudy[30]suggestinganincreaseandanother[31]findingnodis-
+cernibleeffect,likelyduetocaspofungin’shighsolubilityinwaterandmethanol. Critically
+illpatientsexhibitlowercaspofunginexposurecomparedtohealthysubjects[5]. Bettsetal.
+supportedawidesafetymarginforcaspofungin,allowingforhigher-dosetherapyupto
+150mgdailyifclinicallyindicated[44]. However,argumentsagainstreducingcaspofungin
+dosesincriticallyillpatientswithhypoalbuminemiaandabnormalliverfunctionsuggest
+thatauniform,flatdosingstrategymaynotbeoptimal[45]. Consensusleanstowardsthe
+importanceoftherapeuticdrugmonitoringincriticallyillpatientswithhypoalbuminemia,
+withorwithoutabnormalliverfunction,orincaseswherestrainswithelevatedminimum
+inhibitoryconcentrationsneedtobeaddressed.
+Borsuk-DeMooretal.[11]notedatime-varyingCLofcaspofungininICUpatients:
+0.563L/honday1,0.737L/honday2,and1.01L/honday3,respectively. Thisescalating
+CLmaydecreaseAUCandimpairefficacy,butfewmodelsconsideredtime-dependentvari-
+ables. Theextendedmonitoringofcaspofungintherapyisrecommendedforpersonalized
+medicationoptimization.
+Pharmaceutics2024,16,819 20of23
+4.3. TowardsPrecisionDosing
+The model library of caspofungin popPK models developed in this study has the
+potential to accelerate the implementation of MIPD. Leveraging our model library, re-
+searchers could rapidly perform external validations on their data, efficiently selecting
+themostappropriatemodelforlocaluse,therebyspeedingupindividualizeddosing[46].
+Integrationwiththe“PopED”packagefurtherenhancesitsutilitybyallowingtheselection
+ofpublishedlibrarymodelsaspriorinformationforclinicaltrialdesign.
+However, translating preclinical PK/PD targets into clinical benchmarks remains
+challenging. Investigations into the MIC of caspofungin are notably limited, chiefly at-
+tributabletothechallengesincultivatingfungus,theextendeddurationofexperimental
+procedures,andaninadequatefavorablereturnoninvestment. Notably,arecurringtheme
+acrossstudiesisthelackofwell-establishedclinicalPK/PDtargets,leadingtorelianceon
+preclinicalcounterparts. CLSIguidelinesspecifyMICbreakpointsforCandidaspp. invitro
+brothdilutiontests,butsignificantdifferencesinMICsamongbacterialspeciesunderscore
+theimportanceofbacterialcultureinclinicalpractice. Inourmodellibraryaboutadults,
+PK/PDcut-offvaluesvaryforC.albicans,C.glabrata,andC.parapsilosis. Thesefindings
+suggestsignificantvariabilityinestablishingcaspofungincut-offvaluesacrosspopulations,
+posingchallengesforcliniciansandresearchersindeterminingoptimaldosingstrategies.
+Forcaspofungin,thecurrenttargetvaluesarederivedfrompreclinicalstudiesandarein
+urgentneedofconfirmationthroughclinicalresearch.
+DisparitiesinPKprofilesbetweenpediatricandadultpopulationshighlighttheneed
+forfurtherresearch. ThepediatricandadultpopulationsexhibitmarkeddisparitiesinPK
+profiles,particularlywithmuchhighercaspofunginexposurelevelsobservedinchildren
+comparedtoadults,upto1.5timesgreaterwithstandarddosingregimens. Thisdiscrep-
+ancymaystemfromtwopotentialreasons: differencesinthePK/PDrelationshipbetween
+childrenandadultsandtheneedtooptimizethecurrentdosingregimen,suggestingeither
+doseincreasesforadultsordecreasesforchildren. However,duetolimitedresearchin
+pediatricpopulations,furtherPK/PDstudiesinthispopulationareessentialtoelucidate
+theunderlyingcauses.
+Additionally, assessing the concentration of the free drug is essential, as only the
+unboundformexertstherapeuticeffects,thoughthisaspectisoftenoverlookedinstudiesof
+caspofungin. Reducedplasmaproteinlevelsinvitrowerefoundtoincreasetheantifungal
+activityofcaspofunginandlowerthepharmacodynamictargetAUC /MIC,likelyby
+total
+increasingthefreeconcentration[47]. However,noneoftheincludedstudiesmeasured
+freecaspofunginconcentrations. IncaseswherefAUC /MICwasemployedasthe
+0–24h
+PK/PDtarget,itwascalculatedbasedonthetotalAUC/MICtargetandcaspofungin’s
+plasmaproteinbindingrateof97%.
+4.4. Limitations
+Our research has certain limitations. Firstly, due to the limited number of studies
+involvingpediatricpatients,wewereunabletocomprehensivelyinvestigateandcompare
+thePKofchildrenandinfants. Furthermore,asthismodellibraryfocusedonsummarizing
+significantcovariatesinfluencingcaspofunginPKsandcomparingpopPKmodelingacross
+different age groups, we only replicated the published models to align with our study
+objectives and the characteristics of the medications under investigation. Additionally,
+PK/PD targets for PTA calculation were derived from invitro data provided by CLSI,
+whichmayleadtodiscrepanciesinPTAaccuracyduetotheabsenceofinvivostudiesin
+humans. Finally,ourstudywasrestrictedtotheEnglish-languageliterature,potentially
+omittingrelevantstudiespublishedinotherlanguages.
+5. Conclusions
+Themodellibraryofparametricpopulationpharmacokineticmodelsforcaspofungin
+ishelpfulinpromotingmodel-informedprecisedosing. Theoptimizationofthecaspo-
+fungindosingregimenshouldconsiderthepatient’sliverfunctionandhypoproteinemia.
+Pharmaceutics2024,16,819 21of23
+Additionally,prospectivePK/PDstudiesofcaspofungininpediatricsarewarrantedto
+elucidatetheexposure–responserelationshipassociatedwiththismedication.
+SupplementaryMaterials: Thefollowingsupportinginformationcanbedownloadedat: https:
+//www.mdpi.com/article/10.3390/pharmaceutics16060819/s1,FigureS1:Thesteady-stateconce-
+ntration-timeprofilesofpiperacillinfor(a)infants,(b)children,and(c)adultswheninfusedinter-
+mittently. Thesolidlinerepresentsmedianofthesimulatedconcentration-timeprofile. Thelight
+shadowsrepresentthe10th–90thpercentilesofthesimulatedconcentration-timeprofiles.Allvirtual
+patientswereassumedtobemalereceivedcaspofunginatadoseof70mgonthefirstday,followed
+by 50 mg once a day as infusion for 1 h for adults and 70 mg/m2 on the first day, followed by
+50mg/m2onceadayasinfusionfor1hforinfantsandchildren.FigureS2:CheckList.
+AuthorContributions:Conceptualizationandmethodology,N.X.,Y.S.andX.Z.;datacuration,W.M.
+andY.W.(YixueWang);softwareandvalidation,W.Y.,Q.H.andY.W.(YixueWang);formalanalysis,
+N.X.andY.S.;investigation,W.M.andK.W.N.;visualization,N.X.,Y.W.(YueWu)andW.Y.;resources,
+Z.T.,Y.W.(YueWu),X.X.,Q.H.andG.Y.;writing—originaldraftpreparation,N.X.andY.S.;writing—
+reviewandediting,W.M.,K.W.N.,Y.W.(YueWu),Z.T.,G.Y.andX.X.;projectadministration,Z.T.
+andX.X.;supervision,Q.H.,G.Y.,X.X.andX.Z.;fundingacquisition,X.Z.Allauthorshavereadand
+agreedtothepublishedversionofthemanuscript.
+Funding: Y.W.(YixueWang)receivedresearchfundingfromtheNationalKeyResearchandDe-
+velopmentProgramofChina(2021YFC2701800,2021YFC2701805).X.Z.receivedresearchfunding
+fromtheShanghaiMunicipalHealthCommissionClinicalResearchYouthProject(No.20224Y0121),
+theHunanKeyLaboratoryforBioanalysisofComplexMatrixSamples(FZJZ-202305),theNational
+NaturalScienceFoundationofChina(No.82204544),andtheFudanUniversityScientificResearch
+FoundationforTalentedScholars(No.JIF301052).
+InstitutionalReviewBoardStatement:Notapplicable.
+InformedConsentStatement:Notapplicable.
+DataAvailabilityStatement:Thedatageneratedduringand/oranalyzedduringthecurrentstudy
+areavailablefromthepublishedliterature.
+Acknowledgments: TheauthorswouldliketothankMengGufromFudanUniversityfortheir
+criticalcommentsandsuggestionsregardingthedatavisualization.
+ConflictsofInterest:Theauthorsdeclarenoconflictsofinterest.
+References
+1. Pappas,P.G.;Kauffman,C.A.;Andes,D.R.;Clancy,C.J.;Marr,K.A.;Ostrosky-Zeichner,L.;Reboli,A.C.;Schuster,M.G.;Vazquez,
+J.A.;Walsh,T.J.;etal.ClinicalPracticeGuidelinefortheManagementofCandidiasis:2016UpdatebytheInfectiousDiseases
+SocietyofAmerica.Clin.Infect.Dis.2016,62,e1–e50.[CrossRef][PubMed]
+2. Hope,W.W.;Castagnola,E.;Groll,A.H.;Roilides,E.;Akova,M.;Arendrup,M.C.;Arikan-Akdagli,S.;Bassetti,M.;Bille,J.;Cornely,
+O.A.;etal.ESCMID*guidelineforthediagnosisandmanagementofCandidadiseases2012:Preventionandmanagementof
+invasiveinfectionsinneonatesandchildrencausedbyCandidaspp.Clin.Microbiol.Infect.2012,18(Suppl.S7),38–52.[CrossRef]
+[PubMed]
+3. HIGHLIGHTSOFPRESCRIBINGINFORMATIONforCANCIDAS-Merck.Availableonline:https://www.accessdata.fda.gov/
+drugsatfda_docs/label/2021/021227Orig1s040lbl.pdf(accessedon17September2023).
+4. Sinnollareddy,M.G.;Roberts,J.A.;Lipman,J.;Akova,M.;Bassetti,M.;DeWaele,J.J.;Kaukonen,K.M.;Koulenti,D.;Martin,C.;
+Montravers,P.;etal.Pharmacokineticvariabilityandexposuresoffluconazole,anidulafungin,andcaspofungininintensivecare
+unitpatients:DatafrommultinationalDefiningAntibioticLevelsinIntensivecareunit(DALI)patientsStudy.Crit.Care2015,19,
+33.[CrossRef][PubMed]
+5. vanderElst,K.C.;Veringa,A.;Zijlstra,J.G.;Beishuizen,A.;Klont,R.;Brummelhuis-Visser,P.;Uges,D.R.;Touw,D.J.;Kosterink,
+J.G.;vanderWerf,T.S.;etal.LowCaspofunginExposureinPatientsinIntensiveCareUnits.Antimicrob.AgentsChemother.2017,
+61,e01582-16.[CrossRef][PubMed]
+6. vanVianen,W.;deMarie,S.;tenKate,M.T.;Mathot,R.A.;Bakker-Woudenberg,I.A.Caspofungin:Antifungalactivityinvitro,
+pharmacokinetics,andeffectsonfungalloadandanimalsurvivalinneutropenicratswithinvasivepulmonaryaspergillosis.J.
+Antimicrob.Chemother.2006,57,732–740.[CrossRef]
+7. Ambrose, P.G.; Bhavnani, S.M.; Rubino, C.M.; Louie, A.; Gumbo, T.; Forrest, A.; Drusano, G.L. Pharmacokinetics-
+pharmacodynamicsofantimicrobialtherapy:It’snotjustformiceanymore.Clin.Infect.Dis.2007,44,79–86.[CrossRef]
+Pharmaceutics2024,16,819 22of23
+8. Wiederhold,N.P.;Kontoyiannis,D.P.;Chi,J.;Prince,R.A.;Tam,V.H.;Lewis,R.E.Pharmacodynamicsofcaspofungininamurine
+modelofinvasivepulmonaryaspergillosis:Evidenceofconcentration-dependentactivity. J.Infect. Dis. 2004,190,1464–1471.
+[CrossRef]
+9. Louie,A.;Deziel,M.;Liu,W.;Drusano,M.F.;Gumbo,T.;Drusano,G.L.Pharmacodynamicsofcaspofungininamurinemodelof
+systemiccandidiasis: Importanceofpersistenceofcaspofunginintissuestounderstandingdrugactivity. Antimicrob. Agents
+Chemother.2005,49,5058–5068.[CrossRef][PubMed]
+10. Andes,D.;Diekema,D.J.;Pfaller,M.A.;Bohrmuller,J.;Marchillo,K.;Lepak,A.Invivocomparisonofthepharmacodynamic
+targetsforechinocandindrugsagainstCandidaspecies.Antimicrob.AgentsChemother.2010,54,2497–2506.[CrossRef]
+11. Borsuk-DeMoor,A.;Sysiak-Sławecka,J.;Rypulak,E.;Borys,M.;Piwowarczyk,P.;Raszewski,G.;Onichimowski,D.;Czuczwar,
+M.; Wiczling, P. Nonstationary Pharmacokinetics of Caspofungin in ICU Patients. Antimicrob. Agents Chemother. 2020, 64,
+e00345-20.[CrossRef]
+12. Pérez-Pitarch,A.;Ferriols-Lisart,R.;Aguilar,G.;Ezquer-Garín,C.;Belda,F.J.;Guglieri-López,B.Dosingofcaspofunginbasedon
+apharmacokinetic/pharmacodynamicindexforthetreatmentofinvasivefungalinfectionsincriticallyillpatientsoncontinuous
+venovenoushaemodiafiltration.Int.J.Antimicrob.Agents2018,51,115–121.[CrossRef][PubMed]
+13. Sheiner,L.B.;Beal,S.;Rosenberg,B.;Marathe,V.V.Forecastingindividualpharmacokinetics. Clin. Pharmacol. Ther. 1979,26,
+294–305.[CrossRef][PubMed]
+14. Page,M.J.; McKenzie,J.E.; Bossuyt,P.M.; Boutron,I.; Hoffmann,T.C.; Mulrow,C.D.; Shamseer,L.; Tetzlaff,J.M.; Akl,E.A.;
+Brennan,S.E.;etal.ThePRISMA2020statement:Anupdatedguidelineforreportingsystematicreviews.BMJ2021,372,n71.
+[CrossRef][PubMed]
+15. Liu, X.; Ju, G.; Yang, W.; Chen, L.; Xu, N.; He, Q.; Zhu, X.; Ouyang, D. Escitalopram Personalized Dosing: A Population
+PharmacokineticsRepositoryMethod.DrugDes.Devel.Ther.2023,17,2955–2967.[CrossRef][PubMed]
+16. Jamsen, K.M.; McLeay, S.C.; Barras, M.A.; Green, B.Reportingapopulationpharmacokinetic-pharmacodynamicstudy: A
+journal’sperspective.Clin.Pharmacokinet.2014,53,111–122.[CrossRef][PubMed]
+17. Kanji,S.;Hayes,M.;Ling,A.;Shamseer,L.;Chant,C.;Edwards,D.J.;Edwards,S.;Ensom,M.H.;Foster,D.R.;Hardy,B.;etal.
+ReportingGuidelinesforClinicalPharmacokineticStudies: TheClinPKStatement. Clin. Pharmacokinet. 2015, 54, 783–795.
+[CrossRef][PubMed]
+18. Fancher,K.M.;Sacco,A.J.;Gwin,R.C.;Gormley,L.K.;Mitchell,C.B.Comparisonoftwodifferentformulasforbodysurfacearea
+inadultsatextremesofheightandweight.J.Oncol.Pharm.Pract.2016,22,690–695.[CrossRef][PubMed]
+19. Li,Z.R.;Wang,C.Y.;Zhu,X.;Jiao,Z.PopulationPharmacokineticsofLevetiracetam:ASystematicReview.Clin.Pharmacokinet.
+2021,60,305–318.[CrossRef]
+20. Lewis,R.E.Currentconceptsinantifungalpharmacology.MayoClin.Proc.2011,86,805–817.[CrossRef]
+21. Ernst,E.J.;Klepser,M.E.;Ernst,M.E.;Messer,S.A.;Pfaller,M.A.InvitropharmacodynamicpropertiesofMK-0991determinedby
+time-killmethods.Diagn.Microbiol.Infect.Dis.1999,33,75–80.[CrossRef]
+22. CLSI.PerformanceStandardsforAntifungalSusceptibilityTestingofYeasts;CLSI:Berwyn,PA,USA,2022.
+23. Li,F.;Zhou,M.;Jiao,Z.;Zou,Z.;Yu,E.;He,Z.CaspofunginpharmacokineticsandprobabilityoftargetattainmentinICUpatients
+inChina.J.Glob.Antimicrob.Resist.2021,25,238–263.[CrossRef][PubMed]
+24. Mori, M.; Imaizumi, M.; Ishiwada, N.; Kaneko, T.; Goto, H.; Kato, K.; Hara, J.; Kosaka, Y.; Koike, K.; Kawamoto, H.; etal.
+Pharmacokinetics,efficacy,andsafetyofcaspofungininJapanesepediatricpatientswithinvasivecandidiasisandinvasive
+aspergillosis.J.Infect.Chemother.2015,21,421–426.[CrossRef][PubMed]
+25. Niu,C.H.;Xu,H.;Gao,L.L.;Nie,Y.M.;Xing,L.P.;Yu,L.P.;Wu,S.L.;Wang,Y.PopulationPharmacokineticsofCaspofunginand
+DosingOptimizationinChildrenwithAllogeneicHematopoieticStemCellTransplantation. Front. Pharmacol. 2020,11,184.
+[CrossRef][PubMed]
+26. Pressiat,C.;Ait-Ammar,N.;Daniel,M.;Hulin,A.;Botterel,F.;Levesque,E.Pharmacokinetics/PharmacodynamicsofCaspofungin
+inPlasmaandPeritonealFluidofLiverTransplantRecipients. Antimicrob. AgentsChemother. 2022,66,e0118721. [CrossRef]
+[PubMed]
+27. Yang,X.M.;Leroux,S.;Storme,T.;Zhang,D.L.;deBeaumais,T.A.;Shi,H.Y.;Yang,Y.L.;Wang,X.L.;Zhao,W.;Jacqz-Aigrain,E.
+BodySurfaceArea-BasedDosingRegimenofCaspofungininChildren:APopulationPharmacokineticsConfirmatoryStudy.
+Antimicrob.AgentsChemother.2019,63,e00248-19.[CrossRef][PubMed]
+28. Würthwein,G.;Cornely,O.A.;Trame,M.N.;Vehreschild,J.J.;Vehreschild,M.J.;Farowski,F.;Müller,C.;Boos,J.;Hempel,G.;
+Hallek,M.;etal.PopulationpharmacokineticsofescalatingdosesofcaspofungininaphaseIIstudyofpatientswithinvasive
+aspergillosis.Antimicrob.AgentsChemother.2013,57,1664–1671.[CrossRef][PubMed]
+29. Wu,Z.;Lan,J.;Wang,X.;Wu,Y.;Yao,F.;Wang,Y.;Zhao,B.X.;Wang,Y.;Chen,J.;Chen,C.PopulationPharmacokineticsof
+CaspofunginandDoseSimulationsinHeartTransplantRecipients.Antimicrob.AgentsChemother.2022,66,e0224921.[CrossRef]
+[PubMed]
+30. Wang,Q.;Zhang,Z.;Liu,D.;Chen,W.;Cui,G.;Li,P.;Zhang,X.;Li,M.;Zhan,Q.;Wang,C.PopulationPharmacokineticsof
+CaspofunginamongExtracorporealMembraneOxygenationPatientsduringthePostoperativePeriodofLungTransplantation.
+Antimicrob.AgentsChemother.2020,64,e00687-20.[CrossRef]
+Pharmaceutics2024,16,819 23of23
+31. Bailly,S.;Gautier-Veyret,E.;Lê,M.P.;Bouadma,L.;Andremont,O.;Neuville,M.;Mourvillier,B.;Sonneville,R.;Magalhaes,E.;
+Lebut,J.;etal. ImpactofLoadingDoseofCaspofungininPharmacokinetic-PharmacodynamicTargetAttainmentforSevere
+CandidiasisInfectionsinPatientsinIntensiveCareUnits: TheCASPOLOADStudy. Antimicrob. AgentsChemother. 2020,64,
+e01545-20.[CrossRef]
+32. Würthwein,G.;Young,C.;Lanvers-Kaminsky,C.;Hempel,G.;Trame,M.N.;Schwerdtfeger,R.;Ostermann,H.;Heinz,W.J.;
+Cornely, O.A.; Kolve, H.; et al. Population pharmacokinetics of liposomal amphotericin B and caspofungin in allogeneic
+hematopoieticstemcellrecipients.Antimicrob.AgentsChemother.2012,56,536–543.[CrossRef]
+33. Gastine,S.;Hempel,G.;Neely,M.N.;Walsh,T.J.;Groll,A.H.Pharmacokineticmodellingofcaspofungintodevelopanextended
+dosingregimeninpaediatricpatients.J.Antimicrob.Chemother.2022,77,2209–2216.[CrossRef]
+34. Yang,Q.;Zhang,T.;Zhang,Y.;Sun,D.;Zheng,X.;Du,Q.;Wang,X.;Cheng,X.;Xing,J.;Dong,Y.Therecommendeddosage
+regimenforcaspofungininpatientswithhigherbodyweightorhypoalbuminaemiawillresultinlowexposure:Fiveyearsof
+databasedonapopulationpharmacokineticmodelandMonte-Carlosimulations.Front.Pharmacol.2022,13,993330.[CrossRef]
+[PubMed]
+35. Sandhu,P.;Lee,W.;Xu,X.;Leake,B.F.;Yamazaki,M.;Stone,J.A.;Lin,J.H.;Pearson,P.G.;Kim,R.B.Hepaticuptakeofthenovel
+antifungalagentcaspofungin.DrugMetab.Dispos.2005,33,676–682.[CrossRef][PubMed]
+36. Stader, F.; Wuerthwein, G.; Groll, A.H.; Vehreschild, J.J.; Cornely, O.A.; Hempel, G.Physiology-basedpharmacokineticsof
+caspofunginforadultsandpaediatrics.Pharm.Res.2015,32,2029–2037.[CrossRef][PubMed]
+37. Walsh,T.J.;Adamson,P.C.;Seibel,N.L.;Flynn,P.M.;Neely,M.N.;Schwartz,C.;Shad,A.;Kaplan,S.L.;Roden,M.M.;Stone,J.A.;
+etal.Pharmacokinetics,safety,andtolerabilityofcaspofungininchildrenandadolescents.Antimicrob.AgentsChemother.2005,49,
+4536–4545.[CrossRef][PubMed]
+38. Sáez-Llorens,X.;Macias,M.;Maiya,P.;Pineros,J.;Jafri,H.S.;Chatterjee,A.;Ruiz,G.;Raghavan,J.;Bradshaw,S.K.;Kartsonis,
+N.A.;etal.Pharmacokineticsandsafetyofcaspofungininneonatesandinfantslessthan3monthsofage.Antimicrob.Agents
+Chemother.2009,53,869–875.[CrossRef][PubMed]
+39. Sinha,J.;Al-Sallami,H.S.;Duffull,S.B.ChoosingtheAllometricExponentinCovariateModelBuilding.Clin.Pharmacokinet.2019,
+58,89–100.[CrossRef][PubMed]
+40. Fortmann,I.; Hartz,A.; Paul,P.; Pulzer,F.; Müller,A.; Böttger,R.; Proquitté,H.; Dawczynski,K.; Simon,A.; Rupp,J.; etal.
+AntifungalTreatmentandOutcomeinVeryLowBirthWeightInfants:APopulation-basedObservationalStudyoftheGerman
+NeonatalNetwork.Pediatr.Infect.Dis.J.2018,37,1165–1171.[CrossRef]
+41. Roch,A.;Woloch,C.;Blayac,D.;Solas,C.;Quaranta,S.;Mardelle,V.;Castanier,M.;Papazian,L.;Sampol-Manos,E.Effectoffluid
+loadingduringhypovolaemicshockoncaspofunginpharmacokineticparametersinpig.Crit.Care2011,15,R219.[CrossRef]
+42. Roberts, J.A.; Abdul-Aziz, M.H.; Lipman, J.; Mouton, J.W.; Vinks, A.A.; Felton, T.W.; Hope, W.W.; Farkas, A.; Neely, M.N.;
+Schentag,J.J.;etal.Individualisedantibioticdosingforpatientswhoarecriticallyill:Challengesandpotentialsolutions.Lancet
+Infect.Dis.2014,14,498–509.[CrossRef]
+43. Gasperetti,T.;Welte,R.;Oberacher,H.;Marx,J.;Lorenz,I.;Schellongowski,P.;Staudinger,T.;Burgmann,K.;Eller,P.;Santner,T.;
+etal.Penetrationofechinocandinsintowoundsecretionofcriticallyillpatients.Infection2021,49,747–755.[CrossRef][PubMed]
+44. Betts, R.F.; Nucci, M.; Talwar, D.; Gareca, M.; Queiroz-Telles, F.; Bedimo, R.J.; Herbrecht, R.; Ruiz-Palacios, G.; Young, J.A.;
+Baddley,J.W.;etal.AMulticenter,double-blindtrialofahigh-dosecaspofungintreatmentregimenversusastandardcaspofungin
+treatmentregimenforadultpatientswithinvasivecandidiasis.Clin.Infect.Dis.2009,48,1676–1684.[CrossRef][PubMed]
+45. Kurland,S.;Furebring,M.;Löwdin,E.;Eliasson,E.;Nielsen,E.I.;Sjölin,J.PharmacokineticsofCaspofungininCriticallyIll
+PatientsinRelationtoLiverDysfunction: DifferentialImpactofPlasmaAlbuminandBilirubinLevels. Antimicrob. Agents
+Chemother.2019,63,e02466-18.[CrossRef][PubMed]
+46. Liu,X.;Ju,G.;Huang,X.;Yang,W.;Chen,L.;Li,C.;He,Q.;Xu,N.;Zhu,X.;Ouyang,D.Escitaloprampopulationpharmacokinetics
+andremedialstrategiesbasedonCYP2C19phenotype.J.Affect.Disord.2024,346,64–74.[CrossRef]
+47. Kurland,S.;Löwdin,E.;Furebring,M.;Shams,A.;Chryssanthou,E.;Lagerbäck,P.;Tängden,T.;Breuer,O.;Sjölin,J.Human
+plasmaproteinlevelsaltertheinvitroantifungalactivityofcaspofungin:Anexplanationtotheeffectincriticallyill?Mycoses
+2022,65,79–87.[CrossRef]
+Disclaimer/Publisher’sNote: Thestatements, opinionsanddatacontainedinallpublicationsaresolelythoseoftheindividual
+author(s)andcontributor(s)andnotofMDPIand/ortheeditor(s).MDPIand/ortheeditor(s)disclaimresponsibilityforanyinjuryto
+peopleorpropertyresultingfromanyideas,methods,instructionsorproductsreferredtointhecontent.
+Figure S1: The steady-state concentration-time profiles of piperacillin for (a) infants, (b) children,
+and (c) adults when infused intermittently. The solid line represents median of the simulated
+concentration-time profile. The light shadows represent the 10th-90th percentiles of the simulated
+concentration-time profiles. All virtual patients were assumed to be male received caspofungin at a
+dose of 70mg on the first day, followed by 50 mg once a day as infusion for 1h for adults and
+70mg/m2 on the first day, followed by 50 mg/m2 once a day as infusion for 1h for infants and
+children.
+Section Suggested contents
+Introduction Motivation for and objective(s) of the pharmacometrics research
+Methods Sufficient information for the general reader to repeat the study:
+Ethics approval, Study population,
+Dosing, Sampling schedule
+Analytical methods and lower limit of quantification
+Pharmacokinetic or pharmacokinetic
+pharmacodynamic modelling strategy:
+– Candidate structural models
+– Distribution of individual model parameters
+– Residual error structure
+– Methods for handling missing data
+– Methods for base model determination
+– Methods for base model evaluation
+– Covariate analysis strategy
+– Methods for final model evaluation
+– Software package(s) used for the analysis
+– Estimation method(s) used
+Results Numbers of individuals and observations included in the analysis
+Table of patient demographic and clinical variables
+Plot of concentrations versus time and/or effects versus
+concentrations
+Summary of the model-building process and the derived final
+model Schematic of the final model, Table of the final model
+parameters, Final model evaluation plots
+Discussion Highlight what the study achieved, implications of the work
+suggestions for future work and limitations of the study
+Conclusion Briefly answer questions posed by the objectives
+Figure S2：Check List
+The search terms utilized for compiling the model library:
+Pubmed: (“Caspofungun" or “cancidas" or “MK 0991" or “L 743,872" ) AND ("population
+pharmacokinetic" or "nonlinear mixed effect model" or "NONMEM" or "Pmetrics" or
+"WINNONMIX" or "ADAPT" or "P-PHARM" or "nlmixr" or "NLME" or "USC*PACK" or
+"MONOLIX")
+Scopus: (TITLE-ABS-KEY(caspofungin) OR TITLE-ABS-KEY(cancidas) OR TITLE-
+ABS-KEY(mk 0991) OR TITLE-ABS-KEY(l 743872)) AND (TITLE-ABS-
+KEY(populationANDpharmacokinetics) OR TITLE-ABS-
+KEY(nonlinear AND mixed AND effect AND model) OR TITLE-ABS-
+KEY(nonmem) OR TITLE-ABS-KEY(pmetrics) OR TITLE-ABS-
+KEY(winnonmix) OR TITLE-ABS-KEY(adapt) OR TITLE-ABS-KEY(p-
+pharm) OR TITLE-ABS-KEY(nlmixr) OR TITLE-ABS-KEY(nlme) OR TITLE-ABS-
+KEY(monolix))
+Web of Science: (TS=(Caspofungin) OR TS=(cancidas) OR TS=(MK 0991) OR TS=(L743,872))
+AND (TS=(population pharmacokinetic) OR TS=(nonlinear mixed effect model)OR
+TS=(NONMEM) OR TS=(Pmetrics) OR TS=(WINNONMIX) OR TS=(ADAPT) OR TS=(P-
+PHARM) OR TS=(nlmixr) OR TS=(NLME) OR TS=(MONOLIX))
+Embase: (Caspofungin or cancidas or “MK 0991” or L43,872) and (population pharmacokinetics
+or nonlinear mixed effect model or NONMEM or Pmetrics or WINNONMEX or ADAPT or P-
+PHARM or nlmixr or USC*PACK or MONOLIX)
+Code:
+#AiM: Establish a model repository of parametric PPK models for Caspofungin using rxode2
+#Author:Nuo Xu
+#Update data:2022/11/08
+#Connect:nuoxu22@m.edu.cn
+rm(list=ls())
+#set working directory to current folder
+curr.dir<-dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(curr.dir)
+# create the result folder
+output_dir <- "Result"
+if (!file.exists(output_dir)) {dir.create(output_dir)}
+library(tidyverse) # for data visualization and manipulation
+library(rxode2) # for simulation
+library(patchwork)
+library(cowplot)
+#-----------------------------------------
+#----------Adults 70KG 40Y -------------------------
+#-----------------------------------------
+# Define the 2-comp model,model info
+# CL（L/h）=0.462
+# V1（L） =8.33
+# Q (L/h) =1.25
+# V2 (L) =3.59
+# IIV(CL) =25%
+# IIV(V1) =29%
+# Proportional error=0.21
+# BW(kg)
+# Typical population:
+# Adults Allogeneic Hematopoietic Stem Cell Recipients
+# age : 40 years old
+# BW : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(123456)
+# 2-comp model
+mod1 <- RxODE({
+CL = TVCL*exp(eta.CL);
+V1 = TVV1*exp(eta.V1);
+Q = TVQ;
+V2 = TVV2;
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Adults
+# Define typical patient: adults
+BW <- 70 # kg
+AGE <- 40 # years old
+# Define fixed effect parameters
+theta1<- c(TVCL=0.462, TVV1=8.33, TVQ=1.25, TVV2=3.59)
+# Define between subject variability
+omega1 <- lotri(eta.CL ~ 0.25^2, eta.V1 ~ 0.29^2)
+# Define unexplained variability
+sigma1 <- lotri(prop.err.sd ~ 0.21^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev1 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim1 <- rxSolve(mod1,theta1,ev1,omega=omega1,sigma=sigma1,nSub=1000)
+# Concentration-Time plot
+pk_CAS1 <- sim1 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat1 <- pk_CAS1 %>%
+mutate(study="Würthwein et al.(2011)",
+drug="CAS",
+pop="Adult")
+# 2----Würthwein et al.(2013)----
+# Define the 2-comp model,model info
+# CL = 0.411*(1+0.0102*(BW-76)) (L/h)
+# V1 = 5.85*(1+0.0102*(BW-76)) (L)
+# Q = 0.843 (L/h)
+# V2 = 6.53 (L)
+# IIV(CV%): CL = 0.285, V1 = 0.288, V2 = 0.668
+# 0.285=sqrt(exp(omega^2)-1)
+# omega^2=log(0.285^2+1)=0.0781
+# IOV(CV%): CL = 0.16
+# prop.err = 0.143
+# Correlation for CL-V1: 0.802
+# omega1,2=omega2,1/(sqrt(omega1,1^2)*sqrt(omega2,2^2))
+# omega2,1=0.802*sqrt(0.0781)*sqrt(0.079) =0.06299607
+# omega2,1^2=0.003968505=0.00397
+# Typical population:
+# Adults Allogeneic Hematopoietic Stem Cell Recipients
+# BW : 70kg
+# age : 40 years old
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(1234567)
+pop_par <- c(0.411, # (L/h), CL
+5.85, # (L), V1
+0.843, # (L/h), Q
+6.53) # (L), V2
+eta2.cl <- 0.0781 # omega^2=log(0.285^2+1)
+eta2.v1 <- 0.0797 # omega^2=log(0.288^2+1)
+eta2.v2 <- 0.3690 # omega^2=log(0.668^2+1)
+iov2.cl <- 0.0253 # omega^2=log(0.16^2+1)
+cov2.cl_v1 <- 0.06327 # 0.802=omega2,1/(sqrt(omega1,1^2)*sqrt(omega2,2^2))
+prop.err <- 0.143
+# dose regimen
+# an initial dose of 70 mg followed by
+# a maintenance dose of 50 mg/24 h infused
+# over a 1-hour period
+intialdose <- 70 # mg
+maintaindose <- 50 # mg
+dur <- 1 # 1 h
+dose_days <- 4 # 4 days
+interval <- 24 # 24 h
+nsub <- 1000
+WT <- 70
+# 1. Create virtual patients
+covar <- data.frame(id = c(1:nsub),
+WT = WT)
+# 2. Define PPK model of Caspofungin
+# a 2-comp model with the first order elimination
+mod2 <- RxODE({
+CL = TVCL*exp(eta.CL+iov.CL1*occ1+iov.CL2*occ2+iov.CL3*occ3+iov.CL4*occ4);
+V1 = TVV1*exp(eta.V1);
+Q = TVQ;
+V2 = TVV2*exp(eta.V2);
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd);
+})
+# Define fixed effect parameters
+theta2 <- c(TVCL=pop_par[1]*(1+0.0102*(WT-76)),
+TVV1=pop_par[2]*(1+0.0102*(WT-76)),
+TVQ=pop_par[3],
+TVV2=pop_par[4])
+# Define between subject variability
+omega2 <- lotri(lotri(eta.CL + eta.V1 + eta.V2 ~
+c(eta2.cl, # IIV CL
+cov2.cl_v1, eta2.v1, # IIV V1
+0, 0, eta2.v2)) , # IIV V2
+lotri(iov.CL1 ~ iov2.cl), # IOV CL
+lotri(iov.CL2 ~ iov2.cl),
+lotri(iov.CL3 ~ iov2.cl),
+lotri(iov.CL4 ~ iov2.cl))
+# Define unexplained variability
+sigma2 <- lotri(prop.err.sd ~ prop.err^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# define event record
+ev2 <- et(amount.units = "mg", time.units = "hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1)) %>%
+mutate(occ=cumsum(!is.na(amt))) %>%
+mutate(occ1=case_when(occ==1 ~ 1,
+TRUE ~ 0),
+occ2=case_when(occ==2 ~ 1,
+TRUE ~ 0),
+occ3=case_when(occ==3 ~ 1,
+TRUE ~ 0),
+occ4=case_when(occ==4 ~ 1,
+TRUE ~ 0)) %>%
+as.data.frame() %>%
+as_tibble
+sim2 <- rxSolve(mod2, theta2, ev2, omega=omega2, sigma=sigma2,nSub=1000)
+# Concentration-Time plot
+pk_CAS2 <- sim2 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat2 <- pk_CAS2 %>%
+mutate(study="Würthwein et al.(2013)",
+drug="CAS",
+pop="Adult")
+# 3---- Pérez-Pitarch et al. (2018)----
+# Define the 2-comp model,model info
+# kel（h-1）=0.0899（6%）
+# Vc（L） =6.46（7%）
+# k12（h-1）=0.494（13%）
+# k12（h-1）=0.392（12%）
+# ETA(kel) = 0.0140
+# ETA(Vc) = 0.0460
+# Additive error=0.0941（6%）
+# WT(kg)
+# Typical population:
+# Adults
+# AGE : 40 years old
+# BW : 70 kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(12345678)
+# 2-comp model
+mod3 <- RxODE({
+ke = TVke*exp(eta.ke);
+V1 = TVV1*exp(eta.V1);
+k12 = TVk12;
+k21 = TVk21;
+CL = V1*ke;
+V2 = V1*k12/k21;
+Q = V1*k12;
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1+add.err
+})
+# Adults
+# Define typical patient: adults
+BW <- 70 # kg
+AGE <- 40 # years old
+# Define fixed effect parameters
+theta3<- c( TVke =0.0899,
+TVV1 =6.46,
+TVk12 =0.494,
+TVk21 =0.392)
+# Define between subject variability
+omega3 <- lotri(eta.ke ~ 0.0140, eta.V1 ~ 0.0460)
+# Define unexplained variability
+sigma3 <- lotri(add.err ~ 0.0941)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev3 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim3 <- rxSolve(mod3,theta3,ev3,omega=omega3,sigma=sigma3,nSub=1000)
+# Concentration-Time plot
+pk_CAS3 <- sim3 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat3 <- pk_CAS3 %>%
+mutate(study="Pérez-Pitarch et al. (2018)",
+drug="CAS",
+pop="Adult")
+# 4----Wang et al.(2020)-----
+# Define the 2-comp model,model info
+# CL(L/h) =0.21*(OPT/5)^1.3(8%)
+# Vc(L) =(2.21+SEX*0.62)*(OPT/5)^0.93(5%)
+# Vp(L) =2.87(16%)
+# Q(L/h) =0.84*(SOFA/7)^1.98(11%)
+# IIV(CL) =0.04(21.3%)
+# IIV(Vc) =0.01(15.5%)
+# IIV(Vp) =0.23(21.2%)
+# add.error=0.73
+# OPT : operative time(h)
+# SEX : male,SEX=1;female,SEX=0
+# SOFA: score for organ failure
+# Typical population:
+# Adults
+# male SEX=1
+# age : 40 years old
+# OPT : 4.0h
+# WT : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(123456789)
+# 2-comp model
+mod4 <- RxODE({
+CL = TVCL*exp(iiv.CL);
+V1 = TVV1*exp(iiv.V1);
+Q = TVQ;
+V2 = TVV2*exp(iiv.V2);
+C1 = centr/V1;
+C2 = peri/V2
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1 + add.err.sd
+})
+# Adults
+# Define typical patient: adults
+OPT <- 5 # h
+SEX <- 1 # male
+# Define fixed effect parameters
+theta4<- c(TVCL=0.21*(OPT/5)^1.3^(0.04),
+TVV1=(2.21+SEX*0.62)*(OPT/5)^0.93^(0.01),
+TVQ =0.84,
+TVV2=2.87)
+# Define between subject variability
+omega4 <- lotri(iiv.CL ~ 0.04, iiv.V1 ~ 0.01,iiv.V2 ~ 0.23)
+# Define unexplained variability
+sigma4 <- lotri(add.err.sd ~ 0.73)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev4 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim4 <- rxSolve(mod4,theta4,ev4,omega=omega4,sigma=sigma4,nSub=1000)
+# Concentration-Time plot
+pk_CAS4 <- sim4 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat4 <- pk_CAS4 %>%
+mutate(study="Wang et al.(2020)",
+drug="CAS",
+pop="Adult")
+# 5----Bailly et al.(2020)----
+# Define the 2-comp model,model info
+# CL(L/h) =0.98(13%)
+# V1(L) =9.01(13.4%)
+# V2(L) =11.9(24%)
+# Q(L/h) =5.12(26.7%)
+# IIV(CL) =0.423(23.1%)
+# IIV(V1) =0.426(24.5%)
+# IIV(V2) =0.772
+# IIV(Q) =0.799
+# prop error=0.122
+# Typical population:
+# Adults
+# age : 40 years old
+# BW : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(123456789)
+# 2-comp model
+mod5 <- RxODE({
+CL = TVCL*exp(iiv.CL);
+V1 = TVV1*exp(iiv.V1);
+Q = TVQ*exp(iiv.Q);
+V2 = TVV2*exp(iiv.V2);
+C1 = centr/V1;
+C2 = peri/V2
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Adults
+# Define typical patient: ICU patients
+# BW : 70kg
+# Age: 40 years old
+# Define fixed effect parameters
+theta5<- c(TVCL =0.98,
+TVV1 =9.01,
+TVQ =5.12,
+TVV2 =11.9)
+# Define between subject variability
+omega5 <- lotri(iiv.CL ~ 0.423^2, iiv.V1 ~ 0.426^2,iiv.V2 ~ 0.772^2,iiv.Q ~ 0.799^2)
+# Define unexplained variability
+sigma5 <- lotri(prop.err.sd ~ 0.122^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev5 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim5 <- rxSolve(mod5,theta5,ev5,omega=omega5,sigma=sigma5,nSub=1000)
+# Concentration-Time plot
+pk_CAS5 <- sim5 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat5 <- pk_CAS5 %>%
+mutate(study="Bailly et al.(2020)",
+drug="CAS",
+pop="Adult")
+# 6----Li et al.(2021)----
+# Define the 2-comp model,model info
+# CL（L/h）=0.323（11%）
+# V1（L） =6.77(10%)
+# Q (L/h) =0.923(32%)
+# V2 (L) =4.12(25%)
+#Effect of weight on V1 =1.08(24%)
+#Effect of ALB on CL =1.27(30%)
+#Effect of TBIL(≤22μmol/L) on CL =0.89(12%)
+#Effect of TBIL(>22μmol/L) on CL =0.265(32%)
+# CL (L/h) = 0.323×0.89× (35/ALB)^1.27 (if TBIL ≤ 22 μmol/L)
+# CL (L/h) = 0.323× (35/ALB)^1.27×(TBIL/22)^0.265 (if TBIL > 22 μmol/L)
+# Vc (L) = 6.77× (WT/70)^1.08
+# Q (L/h) = 0.923
+# Vp (L) = 4.58
+# IIV(CL) =0.224（18%）
+# Proportional error=0.24（21%）
+# BW(kg)
+# Typical population:
+# Adults Allogeneic Hematopoietic Stem Cell Recipients
+# age : 40 years old
+# BW : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(123456)
+# 2-comp model
+mod6 <- RxODE({
+CL = TVCL*exp(iiv.CL);
+V1 = TVV1;
+Q = TVQ;
+V2 = TVV2;
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Adults
+# Define typical patient: adults
+BW <- 70 # kg
+ALB <- 35
+TBIL<- 22 #μmol/L
+# Define fixed effect parameters
+theta6<- c(TVCL =0.323*0.89* (35/ALB)^1.27 ,
+TVV1 =6.77*(BW/70)^1.08,
+TVQ =0.923,
+TVV2 =4.58)
+# Define between subject variability
+omega6 <- lotri(iiv.CL ~ 0.224^2)
+# Define unexplained variability
+sigma6 <- lotri(prop.err.sd ~ 0.24^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev6 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim6 <- rxSolve(mod6,theta6,ev6,omega=omega6,sigma=sigma6,nSub=1000)
+# Concentration-Time plot
+pk_CAS6 <- sim6 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat6 <- pk_CAS6 %>%
+mutate(study="Li et al.(2021)",
+drug="CAS",
+pop="Adult")
+# 7----Borsuk-De Moor et al.(2021)-----
+# Define the 2-comp model,model info
+# TVCL(L/h) =0.563(6.7%)
+# TVV1(L) =6.04(7.0 %)
+# TVV2(L) =5.13(13.7%)
+# TVQ(L/h) =1.31(15.7%)
+# CL = TVCL*(BW/70)^0.75
+# V = TVV*(BW/70)^1
+# IIV(CL) =0.247(27.3%)
+# IIV(V1) =0.286.0(39.6%)
+# IIV(V2) =0.494(37.1%)
+# IIV(Q) =0 FIX
+# prop error = 0.199
+# Typical population:
+# Adults
+# age : 40 years old
+# BW : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(123456)
+# 2-comp model
+mod7 <- RxODE({
+CL = TVCL*exp(iiv.CL);
+V1 = TVV1*exp(iiv.V1);
+Q = TVQ;
+V2 = TVV2*exp(iiv.V2);
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Adults
+# Define typical patient: adults
+BW <- 70 # kg
+AGE <- 40 # years old
+# Define fixed effect parameters
+theta7<- c(TVCL =0.563*(BW/70)^0.75,
+TVV1 =6.04*(BW/70)^1,
+TVV2 =5.13*(BW/70)^1,
+TVQ =1.31)
+# Define between subject variability
+omega7 <- lotri(iiv.CL + iiv.V1 ~ C(0.247^2,
+0.868 ,0.282^2),
+iiv.V2 ~ 0.494^2)
+# Define unexplained variability
+sigma7 <- lotri(prop.err.sd ~ 0.199^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev7 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim7 <- rxSolve(mod7,theta7,ev7,omega=omega7,sigma=sigma7,nSub=1000)
+# Concentration-Time plot
+pk_CAS7 <- sim7 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat7 <- pk_CAS7 %>%
+mutate(study="Moor et al.(2021)",
+drug="CAS",
+pop="Adult")
+# 8----Wu et al.(2022)-----
+# Define the 2-comp model,model info
+# CL(L/h) =0.385(5%)
+# Vc(L) =4.27(12%)
+# Q(L/h) =2.85(11%)
+# Vp(L) =6.01(13%)
+# CL = TVCL* exp(eta.CL) *(ALB/37.42)^(-1.01)
+# V1 = TVV1* exp(eta.V1)
+# Q = TVQ * exp(eta.Q)
+# V2 = TVV2* exp(eta.V2)
+# IIV(CL) =0.335
+# IIV(V1) =0.675
+# IIV(Q) =0 FIX
+# IIV(V2) =0.477
+# error=0.134
+# additive error=0.213
+# Typical population:
+# Adults : Heart transplantation
+# age : 40 years old
+# BW : 70kg
+# ALB level : 37.42 g/L
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(12345)
+# 2-comp model
+mod8 <- RxODE({
+CL = TVCL* exp(iiv.CL)
+V1 = TVV1* exp(iiv.V1)
+Q = TVQ
+V2 = TVV2* exp(iiv.V2)
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd) + add.err.sd
+})
+# Define typical patient: adults
+BW <- 70 # kg
+ALB <- 37.42 # g/L
+# Define fixed effect parameters
+theta8<- c(TVCL =0.385*(ALB/37.42)^(-1.01),
+TVV1 =4.27,
+TVV2 =6.01,
+TVQ =2.85)
+# Define between subject variability
+omega8 <- lotri(iiv.CL ~ 0.335^2,iiv.V1 ~ 0.675^2 ,iiv.V2 ~ 0.477^2)
+# Define unexplained variability
+sigma8 <- lotri(prop.err.sd ~ 0.134^2, add.err.sd ~ 0.213)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev8 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim8 <- rxSolve(mod8,theta8,ev8,omega=omega8,sigma=sigma8,nSub=1000)
+# Concentration-Time plot
+pk_CAS8 <- sim8 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat8 <- pk_CAS8 %>%
+mutate(study="Wu et al.(2022)",
+drug="CAS",
+pop="Adult")
+# 9----Pressiat et al.(2022)-----
+# Define the 2-comp model,model info
+# CL(L/h) =0.38(8.16%)
+# V1(L) =6.24(15.8%)
+# Q(L/h) =2.58(0.2%)
+# V2(L) =6.44(28.5%)
+# IIV(CL) =0.33(18.6%)
+# IIV(V1) =0.59(21.6%)
+# IIV(V2) =1.07(21.9%)
+# prop error=0.36(4.4%)
+# Typical population:
+# Adults : Liver Transplant Recipients
+# age : 40 years old
+# BW : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(12345)
+rxSetseed(12345)
+# 2-comp model
+mod9 <- RxODE({
+CL = TVCL* exp(iiv.CL)
+V1 = TVV1* exp(iiv.V1)
+Q = TVQ
+V2 = TVV2* exp(iiv.V2)
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Define fixed effect parameters
+theta9<- c(TVCL = 0.38,
+TVV1 = 6.24,
+TVV2 = 6.44,
+TVQ = 2.58)
+# Define between subject variability
+omega9 <- lotri(iiv.CL ~ 0.33^2,iiv.V1 ~ 0.59^2 ,iiv.V2 ~ 1.07^2)
+# Define unexplained variability
+sigma9<- lotri(prop.err.sd ~ 0.36)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev9 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim9 <- rxSolve(mod9,theta9,ev9,omega=omega9,sigma=sigma9,nSub=1000)
+# Concentration-Time plot
+pk_CAS9 <- sim9 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat9 <- pk_CAS9 %>%
+mutate(study="Pressiat et al.(2022)",
+drug="CAS",
+pop="Adult")
+# 15----Yang et al.(2022)-----
+# Define the 1-comp model,model info
+# CL(L/h) =0.32*(1+0.46*ALB*)*(1+0.98*WT*)
+# V(L) ==13.31*(1+0.49*ALB*)*(1+0.24*WT*)
+# ALB*=1, ALB<35 g/L;
+# ALB*=0, ALB≥35 g/L;
+# WT*=1, WT≥70 kg,
+# WT*=0, WT< 70 kg)
+# WT*=1, ALB*=0
+# CL(L/h) =0.32*(1+0.98)
+# V(L) ==13.31*(1+0.24)
+# IIV(CL) =0.292
+# IIV(V1) =0.592
+# prop error=19.3
+# Typical population:
+# Adultsye
+# age : 40 years old
+# BW : 70kg
+# Dose: 70 mg on day 1,followed by 50 mg QD,Infusion for 1h
+set.seed(12345)
+rxSetseed(12345)
+# 2-comp model
+mod15 <- RxODE({
+CL =TVCL*exp(iiv.CL); #a variable in the model.
+V1 =TVV1*exp(iiv.V1);
+conc=centr/V1;
+d/dt(centr)=-CL*conc; #central
+cp=conc*(1+prop.err.sd)
+})
+# Define fixed effect parameters
+theta15<- c(TVCL = 0.6336,
+TVV1 = 16.5044)
+# Define between subject variability
+omega15 <- lotri(iiv.CL ~ 0.292^2,iiv.V1 ~ 0.592^2)
+# Define unexplained variability
+sigma15<- lotri(prop.err.sd ~ 0.193)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70 # mg 1-h infusion
+dose_cas_later<-50 # mg 1-h infusion
+# Define event record
+ev15 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim15 <- rxSolve(mod15,theta15,ev15,omega=omega15,sigma=sigma15,nSub=1000)
+# Concentration-Time plot
+pk_CAS15 <- sim15 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat15 <- pk_CAS15 %>%
+mutate(study="Yang et al.(2022)",
+drug="CAS",
+pop="Adult")
+#----select data----
+dat1 <- dat1 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat2 <- dat2 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat3 <- dat3 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat4 <- dat4 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat5 <- dat5 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat6 <- dat6 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat7 <- dat7 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat8 <- dat8 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat9 <- dat9 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat15 <- dat15 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+#----combine the plots (adults)----
+# combine data
+dat_cas_adult <- dat1 %>%
+bind_rows(dat2) %>%
+bind_rows(dat3) %>%
+bind_rows(dat4) %>%
+bind_rows(dat5) %>%
+bind_rows(dat6) %>%
+bind_rows(dat7) %>%
+bind_rows(dat8) %>%
+bind_rows(dat9) %>%
+bind_rows(dat15)
+# arrange by levels
+dat_cas_adult$study <- factor(dat_cas_adult$study, levels = c("Würthwein et al.(2011)",
+"Würthwein et
+al.(2013)",
+"Pérez-Pitarch et al.
+(2018)",
+"Wang et al.(2020)",
+"Bailly et al.(2020)",
+"Li et al.(2021)",
+"Moor et al.(2021)",
+"Wu et al.(2022)",
+"Pressiat et
+al.(2022)",
+"Yang et al.(2022)"))
+# change the label names
+labelname1 <- c( "Würthwein et al.(2011)" ="Würthwein (2011)" ,
+"Würthwein et al.(2013)" ="Würthwein (2013)" ,
+"Pérez-Pitarch et al. (2018)" ="Pérez-Pitarch (2018)" ,
+"Wang et al.(2020)" ="Wang (2020)" ,
+"Bailly et al.(2020)" ="Bailly (2020)" ,
+"Li et al.(2021)" = "Li (2021)" ,
+"Moor et al.(2021)" = "Moor (2021)",
+"Wu et al.(2022)" = "Wu (2022)" ,
+"Pressiat et al.(2022)" = "Pressiat (2022)",
+"Yang et al.(2022)" = "Yang (2022)")
+pl1 <- dat_cas_adult %>%
+mutate(lowconc=lowconc/70,
+medconc=medconc/70,
+highconc=highconc/70)%>%
+ggplot(mapping=aes(x=tald, y=medconc)) +
+geom_line(size=1.5, color="#003B8E") +
+geom_ribbon(aes(x=tald,ymin=lowconc,ymax=highconc), fill = "#003B8E",alpha=0.2) +
+theme_bw(base_size = 30) +
+facet_wrap(~study, ncol = 5,
+labeller = labeller(study=as_labeller(labelname1)),
+scales="free") +
+scale_x_continuous("Time (h)", limits = c(0,24.1), breaks = c(0,4,8,12,16,20,24)) +
+scale_y_continuous("Concentration (mg/L/kg)") +
+coord_cartesian(ylim = c(0,0.4)) +
+ggtitle("c Adults: 70 kg, 40-year-old") +
+theme (legend.position = "none",
+plot.background = element_rect(fill = 'white'),
+panel.grid.minor = element_blank(),
+panel.grid.major = element_blank(),
+plot.title = element_text(hjust = 0,
+size = 30),
+strip.background = element_rect(fill = "#CCD8E8"))
+#export picture
+jpeg(filename = paste0(output_dir, "/Caspofungin_Adult_plot2.jpg"), width=9000, height=4000,
+res=300)
+print(pl1)
+dev.off()
+dat_cas_adult2 <- dat1 %>%
+bind_rows(dat2) %>%
+bind_rows(dat3) %>%
+bind_rows(dat5) %>%
+bind_rows(dat6) %>%
+bind_rows(dat7) %>%
+bind_rows(dat8) %>%
+bind_rows(dat9)
+# change the label names
+labelname4 <- c( "Würthwein et al.(2011)" ="Würthwein (2011)" ,
+"Würthwein et al.(2013)" ="Würthwein (2013)" ,
+"Pérez-Pitarch et al. (2018)" ="Alejandro (2018)" ,
+"Bailly et al.(2020)" ="Bailly (2020)" ,
+"Li et al.(2021)" = "Li (2021)" ,
+"Moor et al.(2021)" = "Moor (2021)",
+"Wu et al.(2022)" = "Wu (2022)" ,
+"Pressiat et al.(2022)" ="Pressiat (2022)")
+pl2 <- dat_cas_adult2 %>%
+ggplot(mapping=aes(x=tald, y=medconc)) +
+geom_line(size=1.5, color="#003B8E") +
+geom_ribbon(aes(x=tald,ymin=lowconc,ymax=highconc), fill = "#003B8E",alpha=0.2) +
+theme_bw(base_size = 30) +
+facet_wrap(~study, ncol = 4,
+labeller = labeller(study=as_labeller(labelname4)),
+scales="free") +
+scale_x_continuous("Time (h)", limits = c(0,24.1), breaks = c(0,4,8,12,16,20,24)) +
+scale_y_continuous("Concentration (mg/L)") +
+coord_cartesian(ylim = c(0,20)) +
+ggtitle("c Adults: 70 kg, 40-year-old") +
+theme (legend.position = "none",
+plot.background = element_rect(fill = 'white'),
+panel.grid.minor = element_blank(),
+panel.grid.major = element_blank(),
+plot.title = element_text(hjust = 0,
+size = 30),
+strip.background = element_rect(fill = "#CCD8E8"))
+#export picture
+jpeg(filename = paste0(output_dir, "/Caspofungin_Adult_plot_ref.jpg"), width=9000, height=4000,
+res=300)
+print(pl2)
+dev.off()
+#-----------------------------------------
+#-----Children 20KG 6Y 100cm BSA 0.79---------
+#-----------------------------------------
+# 10----Yang et al.(2019)----
+# Define the 2-comp model,model info
+# CL(L/h) = 0.165
+# V1(L) = 1.730
+# Q(L/h) = 0.351
+# V2(L) = 0.943
+# FBSA-CL = (BSA/0.79)^1.3
+# FBSA-V1 = (BSA/0.79)^1.5
+# CL = TVCL*(BSA/0.79)^1.3*exp(iiv.CL)
+# V1 = TVV1*(BSA/0.79)^1.5
+# Q = TVQ* exp(iiv.Q)
+# V2 = TVV2 × exp(iiv.V2)
+# IIV(CL) =0.242(21.0%)
+# IIV(Q) =1.616(90.0%)
+# IIV(V2) =0.766(71.6%)
+# Proportional error=0.196
+# BSA,body surface area(m^2)
+# Typical population:
+# Children Allogeneic Hematopoietic Stem Cell Recipients
+# age : 6 years old
+# BW : 20kg
+# HT : 100cm
+# BSA : 0.79m^2
+# Dose: 70 mg/m^2 on day 1,followed by 50 mg/m^2 QD,Infusion for 1h
+set.seed(123456789)
+# 2-comp model
+mod10 <- RxODE({
+CL = TVCL*exp(iiv.CL);
+V1 = TVV1;
+Q = TVQ*exp(iiv.Q);
+V2 = TVV2*exp(iiv.V2);
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Adults
+# Define typical patient: adults
+BSA <- 0.79 # m^2
+# Define fixed effect parameters
+theta10<- c(TVCL =0.165*(BSA/0.79)^1.3,
+TVV1 =1.73*(BSA/0.79)^1.5,
+TVQ =0.351,
+TVV2 =0.943)
+# Define between subject variability
+omega10 <- lotri(iiv.CL ~ 0.242^2,
+iiv.Q ~ 1.616^2,
+iiv.V2 ~ 0.766^2 )
+# Define unexplained variability
+sigma10 <- lotri(prop.err.sd ~ 0.196)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70*BSA # mg 1-h infusion
+dose_cas_later<-50*BSA # mg 1-h infusion
+# Define event record
+ev10 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim10 <- rxSolve(mod10,theta10,ev10,omega=omega10,sigma=sigma10,nSub=1000)
+# Concentration-Time plot
+pk_CAS10 <- sim10 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat10 <- pk_CAS10 %>%
+mutate(study="Yang et al.(2019)",
+drug="CAS",
+pop="Child")
+# 11----Niu et al.(2020)------
+# Define the 1-comp model,model info
+# TVCL(L/h) =0.14(8.50%)
+# TVVd(L) =1.36(11.8 %)
+# CL(L/h) =0.14*(BSA/0.79)^0.89*(InAST/3.38)^(-0.23)
+# Vd(L) =1.36*(BSA/0.79)
+# IIV(CL) =33.3%
+# IIV(Vd) =32.9%
+# prop error=0.266
+# Typical population:
+# Children With Allogeneic Hematopoietic Stem Cell Transplantation
+# age : 6 years old
+# BSA : 0.79m^2
+# AST : 3.38
+# BW : 20kg
+# Dose: 70 mg/m^2 on day 1,followed by 50 mg/m^2 QD,Infusion for 1h
+set.seed(1234567898)
+# 1-comp model
+mod11 <- RxODE({
+CL =TVCL*exp(iiv.CL); #a variable in the model.
+Vd =TVVd*exp(iiv.Vd);
+conc=centr/Vd;
+d/dt(centr)=-CL*conc; #central
+cp=conc*(1+prop.err.sd)
+})
+# Define typical patient:
+# Children With Allogeneic Hematopoietic Stem Cell Transplantation
+# Age : 10 years old
+# BW : 30kg
+# BSA : 0.79 m^2
+# InAST: 3.38
+BSA <- 0.79
+InAST<- 3.38
+# Define fixed effect parameters
+theta11<- c(TVCL =0.14*(BSA/0.79)^0.89*(InAST/3.38)^(-0.23),
+TVVd =1.36*(BSA/0.79))
+# Define between subject variability
+omega11 <- lotri(iiv.CL ~ 0.333^2, iiv.Vd ~ 0.329^2)
+# Define unexplained variability
+sigma11 <- lotri(prop.err.sd ~ 0.266^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70*BSA # mg 1-h infusion
+dose_cas_later<-50*BSA # mg 1-h infusion
+# Define event record
+ev11 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim11 <- rxSolve(mod11,theta11,ev11,omega=omega11,sigma=sigma11,nSub=1000)
+# Concentration-Time plot
+pk_CAS11 <- sim11 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat11 <- pk_CAS11 %>%
+mutate(study="Niu et al.(2020)",
+drug="CAS",
+pop="Child")
+# 12----Gastine et al.(2022)-----
+# Define the 2-comp model,model info
+# CL(L/h/70kg) = 0.790
+# V1(L/70kg) = 7.75
+# Q(L/h/70kg) = 1.2
+# V2(L/70kg) = 5.29
+# IIV(CL) = 0.275
+# IIV(V1) = 0.315
+# IIV(V2) = 0.151
+# IOV(CL) = 0.172
+# Proportional error=0.194
+# Typical population:
+# Children paediatric patients
+# age : 6 years old
+# BW : 20kg
+# BSA : 0.79m^2
+# Dose: 70 mg/m^2 on day 1,followed by 50 mg/m^2 QD,Infusion for 1h
+set.seed(123456789)
+# 2-comp model
+mod12 <- RxODE({
+CL = TVCL*exp(iiv.CL);
+V1 = TVV1*exp(iiv.V1);
+Q = TVQ;
+V2 = TVV2*exp(iiv.V2);
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Define typical patient:
+# children
+# BW :30 kg
+BW <- 20
+BSA<- 0.79
+# Define fixed effect parameters
+theta12<- c(TVCL =0.79*(BW/70),
+TVV1 =7.75*(BW/70),
+TVQ =1.2*(BW/70),
+TVV2 =5.29*(BW/70))
+# Define between subject variability
+omega12 <- lotri(iiv.CL ~ 0.275^2,
+iiv.V1 ~ 0.315^2,
+iiv.V2 ~ 0.151^2)
+# Define unexplained variability
+sigma12 <- lotri(prop.err.sd ~ 0.194^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70*BSA # mg 1-h infusion
+dose_cas_later<-50*BSA # mg 1-h infusion
+# Define event record
+ev12 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim12 <- rxSolve(mod12,theta12,ev12,omega=omega12,sigma=sigma12,nSub=1000)
+# Concentration-Time plot
+pk_CAS12 <- sim12 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat12 <- pk_CAS12 %>%
+mutate(study="Gastine et al.(2022)",
+drug="CAS",
+pop="Child")
+#----plot_children-----
+dat10 <- dat10 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat11 <- dat11 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+dat12 <- dat12 %>%
+select(tald,lowconc,medconc,highconc,study,drug,pop)
+# combine data
+dat_cas_child <- dat10 %>%
+bind_rows(dat11) %>%
+bind_rows(dat12)
+# arrange by levels
+dat_cas_child$study <- factor(dat_cas_child$study, levels = c("Yang et al.(2019)",
+"Niu et al.(2020)",
+"Gastine et
+al.(2022)"))
+# change the label names
+labelname2 <- c( "Yang et al.(2019)" = "Yang(2019)",
+"Niu et al.(2020)" = "Niu(2020)",
+"Gastine et al.(2022)" = "Gastine(2022)")
+pl3 <- dat_cas_child %>%
+mutate(lowconc=lowconc/20,
+medconc=medconc/20,
+highconc=highconc/20)%>%
+ggplot(mapping=aes(x=tald, y=medconc)) +
+geom_line(size=1.5, color="#003B8E") +
+geom_ribbon(aes(x=tald,ymin=lowconc,ymax=highconc), fill = "#003B8E",alpha=0.2) +
+theme_bw(base_size = 30) +
+facet_wrap(~study, ncol = 3,
+labeller = labeller(study=as_labeller(labelname2)),
+scales="free") +
+scale_x_continuous("Time (h)", limits = c(0,24.1), breaks = c(0,4,8,12,16,20,24)) +
+scale_y_continuous("Concentration (mg/L/kg)") +
+coord_cartesian(ylim = c(0,2.5)) +
+ggtitle("b Children: 110cm,20 kg,6-year-old") +
+theme (legend.position = "none",
+plot.background = element_rect(fill = 'white'),
+panel.grid.minor = element_blank(),
+panel.grid.major = element_blank(),
+plot.title = element_text(hjust = 0,
+size = 30),
+strip.background = element_rect(fill = "#CCD8E8"))
+#export picture
+jpeg(filename = paste0(output_dir, "/Caspofungin_Child_plot_ref2.jpg"), width=9000,
+height=4000, res=300)
+print(pl3)
+dev.off()
+#-----------------------------------------
+#-----Infants 10KG 1Y---------------------
+#-----------------------------------------
+# 13----Niu et al.(2020)------
+# Define the 1-comp model,model info
+# TVCL(L/h) =0.14(8.50%)
+# TVVd(L) =1.36(11.8 %)
+# CL(L/h) =0.14*(BSA/0.79)^0.89*(InAST/3.38)^（-0.23）
+# Vd(L) =1.36*(BSA/0.79)
+# IIV(CL) =33.3%
+# IIV(Vd) =32.9%
+# prop error=0.266
+# Typical population:
+# Infants With Allogeneic Hematopoietic Stem Cell Transplantation
+# age : 1 years old
+# BSA = (WT*HT/3600)^0.5
+# BSA : 0.441 m^2
+# BW : 10kg
+# Height: 70cm
+# Dose: 70 mg/m^2 on day 1,followed by 50 mg/m^2 QD,Infusion for 1h
+set.seed(1234567898)
+# 1-comp model
+mod13 <- RxODE({
+CL =TVCL*exp(iiv.CL); #a variable in the model.
+Vd =TVVd*exp(iiv.Vd);
+conc=centr/Vd;
+d/dt(centr)=-CL*conc;#central
+cp=conc*(1+prop.err.sd)#RUV
+})
+# Adults
+# Define typical patient:
+# Children With Allogeneic Hematopoietic Stem Cell Transplantation
+# Age : 10 years old
+# BW : 30kg
+# BSA : 0.79 m^2
+# InAST: 3.38
+BSA <- 0.441
+InAST<- 3.38
+# Define fixed effect parameters
+theta13<- c(TVCL =0.14*(BSA/0.79)^0.89*(InAST/3.38)^(-0.23),
+TVVd =1.36*(BSA/0.79))
+# Define between subject variability
+omega13 <- lotri(iiv.CL ~ 0.333^2, iiv.Vd ~ 0.329^2)
+# Define unexplained variability
+sigma13 <- lotri(prop.err.sd ~ 0.266^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70*BSA # mg 1-h infusion
+dose_cas_later<-50*BSA # mg 1-h infusion
+# Define event record
+ev13 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim13 <- rxSolve(mod13,theta13,ev13,omega=omega13,sigma=sigma13,nSub=1000)
+# Concentration-Time plot
+pk_CAS13 <- sim13 %>%
+group_by(time) %>%
+# 10-90% Prediction interval
+summarise(medCL = median(CL),
+medconc = median(cp),
+lowconc = quantile(cp,0.1),
+highconc = quantile(cp, 0.9)) %>%
+ungroup() %>%
+# time after last dose
+mutate(time = as.numeric(time),
+tald = time-72)
+dat13 <- pk_CAS13 %>%
+mutate(study="Niu et al.(2020)",
+drug="CAS",
+pop="Infant")
+# 14----Gastine et al.(2022)-----
+# Define the 2-comp model,model info
+# CL(L/h/70kg) = 0.790
+# V1(L/70kg) = 7.75
+# Q(L/h/70kg) = 1.2
+# V2(L/70kg) = 5.29
+# IIV(CL) = 0.275(12.0%)
+# IIV(V1) = 0.315(21.7%)
+# IIV(V2) = 0.151(70.3%)
+# Proportional error=0.194
+# Typical population:
+# Children paediatric patients
+# age : 1 years old
+# BW : 10kg
+# BSA : 0.441m^2
+# Dose: 70 mg/m^2 on day 1,followed by 50 mg/m^2 QD,Infusion for 1h
+set.seed(123456789)
+# 2-comp model
+mod14 <- RxODE({
+CL = TVCL*exp(iiv.CL );
+V1 = TVV1*exp(iiv.V1);
+Q = TVQ;
+V2 = TVV2*exp(iiv.V2);
+C1 = centr/V1;
+C2 = peri/V2;
+d/dt(centr) = - CL*C1 - Q*C1 + Q*C2;
+d/dt(peri) = Q*C1 - Q*C2;
+cp = C1*(1 + prop.err.sd)
+})
+# Define typical patient:
+# children
+# BW :30 kg
+BW <- 10
+BSA<- 0.441
+# Define fixed effect parameters
+theta14<- c(TVCL =0.79*BW/70,
+TVV1 =7.75*BW/70,
+TVQ =1.2*BW/70,
+TVV2 =5.29*BW/70)
+# Define between subject variability
+omega14 <- lotri(iiv.CL ~ 0.275^2,
+iiv.V1 ~ 0.315^2,
+iiv.V2 ~ 0.151^2)
+# Define unexplained variability
+sigma14 <- lotri(prop.err.sd ~ 0.194^2)
+# DOSE of CAS(iv)
+dose_cas_day1 <-70*BSA # mg 1-h infusion
+dose_cas_later<-50*BSA # mg 1-h infusion
+# Define event record
+ev14 <- et(amountUnits="mg", timeUnits="hours") %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_day1, rate = dose_cas_day1/1,
+nbr.doses = 1, start.time = 0) %>%
+add.dosing(dosing.to = "centr",dose = dose_cas_later, rate = dose_cas_later/1,
+nbr.doses = 3, dosing.interval = 24,start.time = 24) %>%
+# sampling:0-24h after the last dosing
+add.sampling(seq(from=72,to=96,by=1))
+# Perform simulation
+# total number of subject: 1000
+sim14 <- rxSolve(mod14,theta14,ev14,omega=omega14,sigma=sigma14,nSub=1000)
