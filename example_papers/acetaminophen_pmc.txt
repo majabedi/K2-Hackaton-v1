@@ -1,0 +1,32 @@
+Population Pharmacokinetic Modelling of Acetaminophen
+
+ABSTRACT
+This study describes acetaminophen pharmacokinetics in healthy adults. 
+A two-compartment pharmacokinetic model with first-order elimination 
+best described the disposition of acetaminophen.
+
+METHODS
+Pooled data included 116 individuals (18–49 years, 49–116 kg) with 
+6095 acetaminophen concentrations available for analysis.
+
+RESULTS
+Clearance and central volume of distribution were 24.0 L/h/70 kg and 
+43.7 L/70 kg for acetaminophen. Bioavailability and absorption half-life 
+were 86% and 12 min for acetaminophen. Absorption lag times were 5.3 min 
+for acetaminophen.
+
+The pharmacokinetic parameters for a standard 70 kg adult are:
+- Clearance (CL): 24.0 L/h
+- Volume of distribution (V1): 43.7 L
+- Absorption rate: half-life of 11.5 minutes
+- Bioavailability: 86%
+- Lag time: 5.3 minutes
+
+DISCUSSION
+These parameters are consistent with previously published values for 
+acetaminophen in adults. The two-compartment model provided superior 
+fit compared to one-compartment model.
+
+CONCLUSION
+Acetaminophen exhibits predictable pharmacokinetics with linear 
+elimination in the therapeutic dose range.
