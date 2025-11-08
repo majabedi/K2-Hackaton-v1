@@ -33,12 +33,16 @@ if 'uploaded_file' in st.session_state:
             response = st.session_state['openai_response']
             start = response.find("<answer>") + len("<answer>")
             end = response.find("</answer>")
-            text = response[start:end]
+            text_not_cleaned = response[start:end]
+            text = find_streamlit_script(text_not_cleaned)
             with open("streamlit_app/pages/model_viewer.py", "w") as f:
                 f.write(text)
-            st.write(text)
             if st.button("See the result plots!"):
                 st.switch_page("pages/model_viewer.py")
+
+            st.header("What we found in you data:")
+            st.write(text)
+            
             
         else:
             if uploaded_file.type == "text/plain":
@@ -53,9 +57,9 @@ if 'uploaded_file' in st.session_state:
             if env_vars_are_set:
                  with st.spinner("Wait! K2 is thinking..."):
                     if uploaded_file.type == "text/plain":
-                        response = get_openai_response(string_data)
+                        response = get_openai_response(string_data, prompt_type="model_call")
                     elif uploaded_file.type == "text/csv":
-                        response = get_openai_response(df.to_string())
+                        response = get_openai_response(df.to_string(), prompt_type="model_call")
                     else:
                         response = "File type not supported for OpenAI analysis."
 
