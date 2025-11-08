@@ -31,28 +31,28 @@ if 'uploaded_file' in st.session_state:
     try:
         if st.session_state['openai_response']:
             st.markdown(st.session_state['openai_response'])
+            
         else:
             if uploaded_file.type == "text/plain":
                 string_data = uploaded_file.read().decode("utf-8")
-                st.text(string_data)
+                st.spinner("Waiting for response...")
             elif uploaded_file.type == "text/csv":
                 df = pd.read_csv(uploaded_file)
                 st.dataframe(df)
             else:
-                st.write(uploaded_file.getvalue())
+                st.write("Plesae upload a text file!")
 
             if env_vars_are_set:
-                if st.button("Get OpenAI Response"):
-                    with st.spinner("Waiting for response..."):
-                        if uploaded_file.type == "text/plain":
-                            response = get_openai_response(string_data)
-                        elif uploaded_file.type == "text/csv":
-                            response = get_openai_response(df.to_string())
-                        else:
-                            response = "File type not supported for OpenAI analysis."
+                 with st.spinner("Waiting for response..."):
+                    if uploaded_file.type == "text/plain":
+                        response = get_openai_response(string_data)
+                    elif uploaded_file.type == "text/csv":
+                        response = get_openai_response(df.to_string())
+                    else:
+                        response = "File type not supported for OpenAI analysis."
 
-                        st.session_state['openai_response'] = response
-                        st.rerun()
+                    st.session_state['openai_response'] = response
+                    st.rerun()
             else:
                 st.warning("Please configure your OpenAI credentials in a `.env` file to use the OpenAI functionality.")
 
