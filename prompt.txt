@@ -8,5 +8,5 @@ INSTRUCTIONS:
    - Ka (Absorption rate constant) if mentioned
    - F (Bioavailability) if mentioned
    - T½ (Half-life) if mentioned
-
+3. Clearly state only the equations and parameters for one model that isthe most dominant in the paper
 
