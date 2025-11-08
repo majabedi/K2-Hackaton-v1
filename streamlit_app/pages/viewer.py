@@ -30,12 +30,16 @@ if 'uploaded_file' in st.session_state:
 
     try:
         if st.session_state['openai_response']:
-            st.markdown(st.session_state['openai_response'])
+            response = st.session_state['openai_response']
+            start = response.find("<answer>") + len("<answer>")
+            end = response.find("</answer>")
+            text = response[start:end]
+            st.write(text)
             
         else:
             if uploaded_file.type == "text/plain":
                 string_data = uploaded_file.read().decode("utf-8")
-                st.spinner("Waiting for response...")
+                st.spinner("Waiting for response from K2...")
             elif uploaded_file.type == "text/csv":
                 df = pd.read_csv(uploaded_file)
                 st.dataframe(df)
