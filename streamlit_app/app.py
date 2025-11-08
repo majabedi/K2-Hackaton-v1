@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="File Uploader", page_icon="📄")
 
-st.title("File Uploader")
+st.title("Upload your sceintific data file!")
 
 uploaded_file = st.file_uploader("Choose a file")
 

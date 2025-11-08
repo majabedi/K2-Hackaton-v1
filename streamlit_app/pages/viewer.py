@@ -13,7 +13,7 @@ load_dotenv()
 
 st.set_page_config(page_title="File Viewer", page_icon="📄")
 
-st.title("Upload your data to PharmaK2!")
+st.title("Uploaded your data to PharmaK2!")
 
 # Check for environment variables
 api_key = os.getenv("OPENAI_API_KEY")
