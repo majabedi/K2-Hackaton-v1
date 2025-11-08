@@ -13,7 +13,7 @@ load_dotenv()
 
 st.set_page_config(page_title="File Viewer", page_icon="📄")
 
-st.title("File Viewer")
+st.title("Upload your data to PharmaK2!")
 
 # Check for environment variables
 api_key = os.getenv("OPENAI_API_KEY")
@@ -37,6 +37,8 @@ if 'uploaded_file' in st.session_state:
             with open("streamlit_app/pages/model_viewer.py", "w") as f:
                 f.write(text)
             st.write(text)
+            if st.button("See the result plots!"):
+                st.switch_page("pages/model_viewer.py")
             
         else:
             if uploaded_file.type == "text/plain":
