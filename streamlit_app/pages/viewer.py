@@ -7,6 +7,7 @@ import pandas as pd
 # Add the parent directory to the Python path to find openai_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from openai_utils import get_openai_response
+from openai_utils import find_streamlit_script
 
 # Load environment variables from .env file in the parent directory
 load_dotenv()
