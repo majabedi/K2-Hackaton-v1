@@ -34,6 +34,8 @@ if 'uploaded_file' in st.session_state:
             start = response.find("<answer>") + len("<answer>")
             end = response.find("</answer>")
             text = response[start:end]
+            with open("streamlit_app/pages/model_viewer.py", "w") as f:
+                f.write(text)
             st.write(text)
             
         else:
@@ -47,7 +49,7 @@ if 'uploaded_file' in st.session_state:
                 st.write("Plesae upload a text file!")
 
             if env_vars_are_set:
-                 with st.spinner("Waiting for response..."):
+                 with st.spinner("Wait! K2 is thinking..."):
                     if uploaded_file.type == "text/plain":
                         response = get_openai_response(string_data)
                     elif uploaded_file.type == "text/csv":
