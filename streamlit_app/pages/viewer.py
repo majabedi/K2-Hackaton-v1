@@ -3,11 +3,14 @@ from dotenv import load_dotenv
 import os
 import sys
 import pandas as pd
+import tempfile
+
 
 # Add the parent directory to the Python path to find openai_utils
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from openai_utils import get_openai_response
 from openai_utils import find_streamlit_script
+from pdf_util import parse_pdf
 
 # Load environment variables from .env file in the parent directory
 load_dotenv()
@@ -49,15 +52,25 @@ if 'uploaded_file' in st.session_state:
             if uploaded_file.type == "text/plain":
                 string_data = uploaded_file.read().decode("utf-8")
                 st.spinner("Waiting for response from K2...")
+            elif uploaded_file.type == "application/pdf":
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+                    tmp.write(uploaded_file.getbuffer())
+                    temp_path = tmp.name
+                    output_text = temp_path+".txt"
+                    parse_pdf(temp_path,output_text)
+                    with open(output_text) as f:
+                        string_data = f.read()
+
+                st.spinner("Waiting for response from K2...")
             elif uploaded_file.type == "text/csv":
                 df = pd.read_csv(uploaded_file)
                 st.dataframe(df)
             else:
-                st.write("Plesae upload a text file!")
+                st.write("Please upload a text file or apdf file!")
 
             if env_vars_are_set:
                  with st.spinner("Wait! K2 is thinking..."):
-                    if uploaded_file.type == "text/plain":
+                    if (uploaded_file.type == "text/plain") or (uploaded_file.type == "application/pdf"):
                         response = get_openai_response(string_data, prompt_type="model_call")
                     elif uploaded_file.type == "text/csv":
                         response = get_openai_response(df.to_string(), prompt_type="model_call")

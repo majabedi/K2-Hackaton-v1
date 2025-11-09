@@ -4,7 +4,7 @@ st.set_page_config(page_title="File Uploader", page_icon="📄")
 
 st.title("Please provide a sceintific text which has information related to Pharmacokinetics!")
 
-uploaded_file = st.file_uploader("Upload your sceintific data file here")
+uploaded_file = st.file_uploader("Upload your sceintific data file here", type=["pdf","txt"])
 
 if uploaded_file is not None:
     st.session_state['uploaded_file'] = uploaded_file
