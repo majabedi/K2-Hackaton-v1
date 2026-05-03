@@ -76,4 +76,4 @@ INSTRUCTIONS (keep it simple; internal reasoning allowed, but output is code onl
 9. Show a warning if the concentration of drug in the plot goes higher than the toxic level and suggest to reduce the doses.
 
 OUTPUT
-Return only one Streamlit .py script (no markdown fences, no explanations). The script must run as-is:
+Return only one Streamlit .py script (no markdown fences, no explanations and no thinking steps). The script must run as-is.
