@@ -38,7 +38,9 @@ if 'uploaded_file' in st.session_state:
             start = response.find("<answer>") + len("<answer>")
             end = response.find("</answer>")
             text_not_cleaned = response[start:end]
+            st.info("Not cleaned text:" + text_not_cleaned)
             text = find_streamlit_script(text_not_cleaned)
+            st.info("Not cleaned text:" + text)
             with open("streamlit_app/pages/model_viewer.py", "w") as f:
                 f.write(text)
             if st.button("See the result plots!"):
