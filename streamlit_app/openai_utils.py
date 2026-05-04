@@ -29,7 +29,7 @@ def get_openai_response(content: str, prompt_type="model_call") -> str:
     try:
         response = client.chat.completions.create(
             model=model,
-            temperature=0.0,
+            temperature=0.8,
             messages=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": content},
